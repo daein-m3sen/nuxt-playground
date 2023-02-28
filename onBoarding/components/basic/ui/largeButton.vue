@@ -1,6 +1,15 @@
 <template>
-  <button>테스트</button>
+  <button>{{ content }}</button>
 </template>
+
+<script setup>
+const $props = defineProps({
+  content: {
+    type: String,
+    default: 'Button'
+  }
+})
+</script>
 
 <style lang="scss">
 .btn {
