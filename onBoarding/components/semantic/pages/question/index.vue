@@ -9,12 +9,12 @@
         </section>
 
         <section>
-          <CompoundUi_keyword-search-box class="search">
+          <CompoundUi_keyword-search-box class="search" @update:questions="updateData">
             <template />
             <template #close="{ close }">
               <BasicUi_icon-button>
                 <template #icon>
-                  <div class="mdi mdi-close close-btn" @click="close"></div>
+                  <div class="mdi mdi-close close-btn" @click="close(keywordSearchQuery)"></div>
                 </template>
               </BasicUi_icon-button>
             </template>
@@ -31,20 +31,18 @@
         <section>
           <CompoundData_tags>
             <template #tags="{ data }">
-              <CompoundUiList_tag-list class="tags" :tags="data" />
+              <CompoundUiList_tag-list class="tags" :tags="data" @update:questions="updateData" />
             </template>
           </CompoundData_tags>
 
           <div style="text-align: left">총 {{ count }}건</div>
           <hr>
 
-          <CompoundData_questions>
-            <template #questions="{ data }">
-              <CompoundUiList_question-list :questions="data" />
-            </template>
-          </CompoundData_questions>
+          <!-- 데이터가 변경됨에 따라 내용이 달라져야함 -->
+          <CompoundUiList_question-list :questions="datas" />
 
-          <BasicUi_border-button class="more-btn" :content="`더보기 ${1} / ${count}`" />
+          <BasicUi_border-button class="more-btn" v-if="!count && count < 4" :content="`더보기 ${count} / ${count}`"
+            @click="onClickMore" />
         </section>
       </template>
     </BasicUiWrapper_single-line>
@@ -57,18 +55,35 @@
 </template>
 
 <script setup>
-const count = ref(0)
+const count = computed(() => count.value = datas.value.length)
 const router = useRouter()
-const keywordSearchQuery = reactive('/api/questions/search')
-const getDataLen = async () => {
-  const { data } = await useFetch('/api/questions/count')
+const keywordSearchQuery = '/api/questions/search'
+const datas = ref(null);
+let currPage = 0
+let pageSize = 1
 
-  count.value = data.value
+const initData = async () => {
+  const { data } = await useFetch('/api/questions')
+  console.log(currPage, ((currPage + 1) * pageSize))
+
+  datas.value = data.value.slice(currPage, ((currPage + 1) * pageSize))
 }
 
-const getData = async () => { }
+const updateData = (newVal) => {
+  currPage = 0
+  pageSize = 1
+  datas.value = newVal
+}
 
-await getDataLen()
+const onClickMore = () => {
+  if (count.value <= (currPage + 1) * pageSize) return
+
+  currPage += 1
+  console.log(datas.slice(currPage, ((currPage + 1) * pageSize)))
+  // datas.value = datas.slice(currPage, ((currPage + 1) * pageSize))
+}
+
+await initData()
 </script>
 
 <style lang="scss" scoped>
@@ -101,7 +116,7 @@ await getDataLen()
 
   & .inquire-sector {
     padding: 20px 0;
-    margin: 30px 0 0 0;
+    margin: 50px 0 0 0;
     text-align: center;
     width: 100%;
     background-color: #F2F3FE;

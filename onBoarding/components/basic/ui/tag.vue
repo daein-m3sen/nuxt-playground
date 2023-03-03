@@ -9,10 +9,6 @@ const $props = defineProps({
     default: '기본태그'
   }
 })
-
-const onClickTag = () => {
-  console.log($props.content)
-}
 </script>
 
 <style lang="scss" scoped>

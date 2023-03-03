@@ -17,7 +17,6 @@ const getData = async () => {
   const { data } = await useFetch($props.urls)
 
   c_data.value = data.value
-  console.log(c_data.value)
 }
 await getData()
 

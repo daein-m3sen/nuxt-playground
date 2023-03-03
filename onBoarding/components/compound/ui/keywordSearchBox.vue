@@ -1,6 +1,6 @@
 <template>
   <div class="keyword-search-box">
-    <BasicUi_input :placeholder="placeholder" :input="keyword" @update:input="(input) => keyword = input">
+    <BasicUi_input :placeholder="placeholder" :input="keyword" @update:input="(input) => keyword = input" @enter="search">
       <slot name="default" />
     </BasicUi_input>
 
@@ -19,20 +19,22 @@ const $props = defineProps({
 
 const c_data = ref(null)
 const keyword = ref(null)
-const close = () => {
+const emit = defineEmits(['update:questions'])
+
+const close = (f_query) => {
   keyword.value = null
-  search()
+  search(f_query)
 }
 
 const search = async (f_query) => {
   const query = keyword.value === null
     ? `${f_query}/all`
     : `${f_query}/${keyword.value}`
-  console.log(query)
   const { data } = await useFetch(query)
 
   c_data.value = data.value
-  console.log(c_data.value)
+
+  emit('update:questions', c_data.value);
 }
 </script>
 
