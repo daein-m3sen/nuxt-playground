@@ -1,0 +1,61 @@
+<template>
+  <div class="board-box">
+    <div class="board-box-title" @click="onMoreBtnEvent">
+      <BasicUi_icon-title class="title" :title="postContent.title" />
+      <BasicUi_icon-button class="more-btn">
+        <template v-slot:icon>
+          <div v-if="!moreSwitch" class="mdi mdi-chevron-down"></div>
+          <div v-else class="mdi mdi-chevron-up"></div>
+        </template>
+      </BasicUi_icon-button>
+    </div>
+    <div v-if="moreSwitch" class="board-box-content">
+      <BasicUi_content :content="postContent.content" />
+    </div>
+  </div>
+</template>
+
+<script setup>
+const $props = defineProps({
+  postContent: {
+    type: Object
+  },
+  idx: {
+    type: Number
+  }
+})
+const moreSwitch = ref(false)
+const onMoreBtnEvent = () => {
+  moreSwitch.value = !moreSwitch.value
+}
+</script>
+
+<style lang="scss" scoped>
+.board-box {
+  padding: 20px 0;
+
+  border-bottom: 1px solid lightgrey;
+
+  & .board-box-title {
+    display: flex;
+
+    & .title {
+      margin-right: auto;
+    }
+
+    & .more-btn {
+      margin-left: auto;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  & .board-box-content {
+    display: block;
+    padding: 0 0 0 45px;
+    text-align: left;
+  }
+}
+</style>

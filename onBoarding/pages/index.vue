@@ -1,3 +1,3 @@
 <template>
-    <Sementic_pages />
+    <Semantic_pages />
 </template>

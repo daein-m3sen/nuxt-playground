@@ -1,11 +1,15 @@
 <template>
-  <div>
-    <img class="logo" src="/static/logo.png" alt="">
+  <div class="logo">
+    <img class="logo-inner" src="/static/logo.png" alt="">
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .logo {
-  width: 100px;
+  padding: 15px;
+
+  .logo-inner {
+    width: 100px;
+  }
 }
 </style>

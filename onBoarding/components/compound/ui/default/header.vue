@@ -4,9 +4,13 @@
   </header>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .default-header {
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
   height: 60px;
-  background-color: lightcoral;
+  border-bottom: 1px solid lightgrey;
+  background-color: white;
 }
 </style>

@@ -1,5 +1,12 @@
 <template>
-  <div>
-    라인
+  <div class="line">
+    <slot name="center"></slot>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.line {
+  margin: 0 auto;
+  text-align: center;
+}
+</style>

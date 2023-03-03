@@ -11,10 +11,14 @@ const $props = defineProps({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .btn {
-  height: 50px;
-  background-color: white;
-  border: 1px solid lightskyblue;
+  height: 40px;
+  margin: 10px 0;
+  padding: 10px 30px;
+  color: white;
+  background-color: #005BFE;
+  font-weight: 600;
+  border-radius: 0.5rem;
 }
 </style>
