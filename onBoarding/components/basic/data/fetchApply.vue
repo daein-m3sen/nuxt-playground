@@ -1,5 +1,5 @@
 <template>
-  <slot name="data" :data="c_data" />
+  <slot name="data" :data="_data" />
   <slot name="error" :data="_error" />
 </template>
 
@@ -11,12 +11,13 @@ const $props = defineProps({
   }
 })
 
-const _error = ref({})
-const c_data = ref(null)
+const _error = ref(null)
+const _data = ref(null)
+
 const getData = async () => {
   const { data } = await useFetch($props.urls)
 
-  c_data.value = data.value
+  _data.value = data.value
 }
 await getData()
 

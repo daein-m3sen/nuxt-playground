@@ -1,15 +1,15 @@
 <template>
   <div class="board-box">
-    <div class="board-box-title" @click="onMoreBtnEvent">
+    <div class="board-box-title" @click="f_onMoreBtnEvent">
       <BasicUi_icon-title class="title" :title="postContent.title" />
       <BasicUi_icon-button class="more-btn">
         <template v-slot:icon>
-          <div v-if="!moreSwitch" class="mdi mdi-chevron-down"></div>
+          <div v-if="!_moreSwitch" class="mdi mdi-chevron-down"></div>
           <div v-else class="mdi mdi-chevron-up"></div>
         </template>
       </BasicUi_icon-button>
     </div>
-    <div v-if="moreSwitch" class="board-box-content">
+    <div v-if="_moreSwitch" class="board-box-content">
       <BasicUi_content :content="postContent.content" />
     </div>
   </div>
@@ -24,9 +24,9 @@ const $props = defineProps({
     type: Number
   }
 })
-const moreSwitch = ref(false)
-const onMoreBtnEvent = () => {
-  moreSwitch.value = !moreSwitch.value
+const _moreSwitch = ref(false)
+const f_onMoreBtnEvent = () => {
+  _moreSwitch.value = !_moreSwitch.value
 }
 </script>
 

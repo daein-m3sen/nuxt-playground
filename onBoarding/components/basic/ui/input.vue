@@ -1,5 +1,5 @@
 <template>
-  <input class="input" type="text" :placeholder="placeholder" v-model="input" @input="handleInput">
+  <input class="input" type="text" :placeholder="placeholder" v-model="_input" @input="f_handleInput">
 </template>
 
 <script setup>
@@ -15,11 +15,11 @@ const $props = defineProps({
 })
 
 const { input: p_input } = toRefs($props)
-const input = ref(null)
-const emit = defineEmits(['update:input'])
-const handleInput = () => emit('update:input', input.value === '' ? null : input.value)
+const _input = ref(null)
+const $emit = defineEmits(['update:input'])
+const f_handleInput = () => $emit('update:input', _input.value === '' ? null : _input.value)
 
-watch(p_input, (newVal) => input.value = newVal)
+watch(p_input, (newVal) => _input.value = newVal)
 </script>
 
 <style lang="scss" scoped>

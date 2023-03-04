@@ -1,7 +1,7 @@
 <template>
   <span class="description-box">
-    <BasicUi_description :class="{ description: isShow }">
-      <template v-if="isShow" #external />
+    <BasicUi_description :class="{ description: _isShow }">
+      <template v-if="_isShow" #external />
     </BasicUi_description>
     {{ description }}
   </span>
@@ -15,35 +15,35 @@ const $props = defineProps({
   }
 })
 
-const isShow = ref(false);
-const keyDownEventListener = (evt) => {
+const _isShow = ref(false)
+const h_keyDown = (evt) => {
   evt.stopPropagation()
 
   switch (evt.key) {
     case 'Shift':
-      isShow.value = true
+      _isShow.value = true
       break
     default:
-      isShow.value = false
+      _isShow.value = false
       break
   }
 }
 
-const keyUpEventListener = (evt) => {
+const h_keyUp = (evt) => {
   evt.stopPropagation()
-  isShow.value = false
+  _isShow.value = false
 }
 
 onMounted(() => {
-  window.addEventListener('keyup', keyUpEventListener)
-  window.addEventListener('keydown', keyDownEventListener)
-  window.addEventListener('onmouseleave', keyUpEventListener)
+  window.addEventListener('keyup', h_keyUp)
+  window.addEventListener('keydown', h_keyDown)
+  window.addEventListener('onmouseleave', h_keyUp)
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('keyup', false)
-  window.removeEventListener('keydown', false)
-  window.addEventListener('onmouseleave', false)
+  window.removeEventListener('keyup', h_keyUp, false)
+  window.removeEventListener('keydown', h_keyDown, false)
+  window.addEventListener('onmouseleave', h_keyUp, false)
 })
 </script>
 

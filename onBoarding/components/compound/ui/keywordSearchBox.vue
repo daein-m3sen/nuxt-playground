@@ -1,11 +1,12 @@
 <template>
   <div class="keyword-search-box">
-    <BasicUi_input :placeholder="placeholder" :input="keyword" @update:input="(input) => keyword = input" @enter="search">
-      <slot name="default" />
+    <BasicUi_input :placeholder="placeholder" :input="_keyword" @update:input="(input) => _keyword = input"
+      @enter="f_search">
+      <slot />
     </BasicUi_input>
 
-    <slot v-if="$slots.close" name="close" :="{ close }" />
-    <slot v-if="$slots.search" name="search" :="{ search }" />
+    <slot v-if="$slots.close" name="close" :="{ f_close }" />
+    <slot v-if="$slots.search" name="search" :="{ f_search }" />
   </div>
 </template>
 
@@ -17,24 +18,24 @@ const $props = defineProps({
   }
 })
 
-const c_data = ref(null)
-const keyword = ref(null)
-const emit = defineEmits(['update:questions'])
+const _data = ref(null)
+const _keyword = ref(null)
+const $emit = defineEmits(['update:questions'])
 
-const close = (f_query) => {
-  keyword.value = null
-  search(f_query)
+const f_close = (query) => {
+  _keyword.value = null
+  f_search(query)
 }
 
-const search = async (f_query) => {
-  const query = keyword.value === null
+const f_search = async (f_query) => {
+  const query = _keyword.value === null
     ? `${f_query}/all`
-    : `${f_query}/${keyword.value}`
+    : `${f_query}/${_keyword.value}`
   const { data } = await useFetch(query)
 
-  c_data.value = data.value
+  _data.value = data.value
 
-  emit('update:questions', c_data.value);
+  $emit('update:questions', _data.value)
 }
 </script>
 
