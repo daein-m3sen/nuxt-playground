@@ -103,9 +103,10 @@ await f_loadQuestion()
 
 <style lang="scss" scoped>
 .question-page {
+  min-width: 768px;
+
   & .main {
     width: 80%;
-    min-width: 500px;
 
     & .title {
       margin: 50px 0;
