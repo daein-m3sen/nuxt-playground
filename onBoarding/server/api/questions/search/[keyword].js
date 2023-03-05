@@ -29,8 +29,7 @@ const questions = [
 
 export default defineEventHandler((event) => {
   const keyword = event.context.params.keyword
-  console.log(event.context, 'context')
-  // const { pageSize, currPage } = event.context.query
+  
   if (keyword === 'all') return questions;
   else return questions.filter(item => item.title.includes(decodeURI(keyword)))
 });

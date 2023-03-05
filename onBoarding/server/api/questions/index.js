@@ -27,6 +27,8 @@ const questions = [
   },
 ]
 
-export default defineEventHandler(() => {
-  return questions;
+export default defineEventHandler((event) => {
+  const { page = 1, size = 1 } = getQuery(event)
+
+  return questions.slice((Number(page) - 1) * Number(size), (Number(page) - 1) * Number(size) + Number(size));
 });

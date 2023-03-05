@@ -24,6 +24,6 @@ const f_search = async (keyword) => {
   const { data } = await useFetch(query)
 
   _data.value = data.value
-  $emit('update:questions', _data.value)
+  $emit('update:questions', { data: _data.value, keyword })
 }
 </script>
