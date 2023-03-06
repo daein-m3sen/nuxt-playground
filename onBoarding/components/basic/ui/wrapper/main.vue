@@ -11,14 +11,17 @@
 <script setup>
 const _isWideScreen = ref(false)
 
-if (process.client) {
-  _isWideScreen.value = window.matchMedia('(min-width: 430px)').matches
+onMounted(() => {
+  if (process.client) {
+    _isWideScreen.value = window.matchMedia('(min-width: 430px)').matches
 
-  window.addEventListener('resize', () => {
-    const currWidth = window.matchMedia('(min-width: 430px)')
-    _isWideScreen.value = currWidth.matches
-  })
-}
+    window.addEventListener('resize', () => {
+      const currWidth = window.matchMedia('(min-width: 430px)')
+      _isWideScreen.value = currWidth.matches
+    })
+  }
+})
+
 </script>
 
 <style lang="scss">

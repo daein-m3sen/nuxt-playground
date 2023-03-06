@@ -25,6 +25,7 @@ watch(p_input, (newVal) => _input.value = newVal)
 <style lang="scss" scoped>
 .input {
   font-size: 14px;
+  text-align: center;
   min-width: 220px;
 }
 </style>

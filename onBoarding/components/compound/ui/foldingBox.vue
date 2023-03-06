@@ -40,6 +40,7 @@ const f_onMoreBtnEvent = () => {
     display: flex;
 
     & .title {
+      width: calc(100% - 40px);
       margin-right: auto;
     }
 
@@ -54,8 +55,7 @@ const f_onMoreBtnEvent = () => {
 
   & .board-box-content {
     display: block;
-    padding: 0 0 0 45px;
-    text-align: left;
+    padding: 0 45px;
   }
 }
 </style>

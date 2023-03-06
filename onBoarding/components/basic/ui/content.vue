@@ -16,5 +16,6 @@ const $props = defineProps({
 <style lang="scss" scoped>
 .content {
   padding: 15px 0;
+  text-align: left;
 }
 </style>

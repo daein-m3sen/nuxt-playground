@@ -27,23 +27,24 @@ const { keyword: p_keyword } = toRefs($props)
 const _keyword = ref(null)
 const _isWideScreen = ref(false)
 
-if (process.client) {
-  _isWideScreen.value = window.matchMedia('(min-width: 430px)').matches
-
-  window.addEventListener('resize', () => {
-    const currWidth = window.matchMedia('(min-width: 430px)')
-
-    _isWideScreen.value = currWidth.matches
-  })
-}
-
 onMounted(async () => {
   _keyword.value = p_keyword.value
+
+  if (process.client) {
+    _isWideScreen.value = window.matchMedia('(min-width: 430px)').matches
+
+    window.addEventListener('resize', () => {
+      const currWidth = window.matchMedia('(min-width: 430px)')
+
+      _isWideScreen.value = currWidth.matches
+    })
+  }
 })
 
 const $emit = defineEmits(['update:questions'])
 
 const f_close = async (query = '/api/questions/search') => {
+  console.log(`${query}/all`)
   const { data } = await useFetch(`${query}/all`)
 
   _data.value = data.value
@@ -72,20 +73,15 @@ watch(p_keyword, (newVal) => {
 
 <style lang="scss" scoped>
 .keyword-search-box {
-  display: inline-block;
   width: 100%;
-  max-width: 390px;
+  max-width: 400px;
   border: 1px solid lightgrey;
   border-radius: 2rem;
   padding: 5px 15px;
+  margin: 0 auto;
 
-  & .close-btn {
-    color: lightgrey;
-    font-size: 18px;
-  }
-
-  & .search-btn {
-    font-size: 20px;
+  & input {
+    width: calc(100% - 35px - 35px);
   }
 }
 </style>

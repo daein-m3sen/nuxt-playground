@@ -1,7 +1,7 @@
 <template>
   <footer class="default-footer">
     <BasicUiWrapper_main :class="{ 'isWideScreen': _isWideScreen }">
-      <template #main class="footer-inner">
+      <template #main>
         <BasicUi_logo class="logo" />
         <div class="divide-line"></div>
         <div class="description">
@@ -22,14 +22,17 @@
 <script setup>
 const _isWideScreen = ref(false)
 
-if (process.client) {
-  _isWideScreen.value = window.matchMedia('(min-width: 430px)').matches
+onMounted(() => {
+  if (process.client) {
+    _isWideScreen.value = window.matchMedia('(min-width: 430px)').matches
 
-  window.addEventListener('resize', () => {
-    const currWidth = window.matchMedia('(min-width: 430px)')
-    _isWideScreen.value = currWidth.matches
-  })
-}
+    window.addEventListener('resize', () => {
+      const currWidth = window.matchMedia('(min-width: 430px)')
+      _isWideScreen.value = currWidth.matches
+    })
+  }
+})
+
 </script>
 
 <style lang="scss" scoped>
@@ -40,22 +43,22 @@ if (process.client) {
 .default-footer {
   border-top: 1px solid lightgrey;
   background-color: white;
+  text-align: center;
 
   & .logo {
     padding: 20px 30px;
     margin: auto;
+    flex-grow: 1;
   }
 
   & .description {
     padding: 20px 30px;
+    text-align: left;
+    flex-grow: 2;
   }
 
   & .divide-line {
     border-bottom: 1px solid lightgrey;
-  }
-
-  & .footer-inner {
-    display: block;
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
-  <h1>
+  <span class="title-one">
     {{ title }}
-  </h1>
+  </span>
 </template>
 
 <script setup>
@@ -12,3 +12,10 @@ const $props = defineProps({
   }
 })
 </script>
+
+<style>
+.title-one {
+  font-size: 32px;
+  font-weight: 600;
+}
+</style>
