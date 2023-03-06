@@ -1,7 +1,7 @@
 <template>
   <footer class="default-footer">
-    <BasicUiWrapper_main>
-      <template #main class="footer-inner" :class="{ 'isSmallScreen': isWideScreen }">
+    <BasicUiWrapper_main :class="{ 'isWideScreen': isWideScreen }">
+      <template #main class="footer-inner">
         <BasicUi_logo class="logo" />
         <div class="divide-line"></div>
         <div class="description">
@@ -20,25 +20,28 @@
 </template>
 
 <script setup>
-const isWideScreen = ref(false)
-let mediaQuery = null
+const isWideScreen = ref(true)
 
 if (process.client) {
-  mediaQuery = window.matchMedia('(min-width: 768px)')
-
-  watchEffect(() => {
-    isWideScreen.value = mediaQuery.matches
+  window.addEventListener('resize', () => {
+    const currWidth = window.matchMedia('(min-width: 410px)')
+    isWideScreen.value = currWidth.matches
   })
 }
 </script>
 
 <style lang="scss" scoped>
+.isWideScreen {
+  display: flex;
+}
+
 .default-footer {
   border-top: 1px solid lightgrey;
   background-color: white;
 
   & .logo {
     padding: 20px 30px;
+    margin: auto;
   }
 
   & .description {
@@ -49,8 +52,8 @@ if (process.client) {
     border-bottom: 1px solid lightgrey;
   }
 
-  & .isSmallScreen {
-    display: flex;
+  & .footer-inner {
+    display: block;
   }
 }
 </style>

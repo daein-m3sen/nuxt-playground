@@ -1,7 +1,7 @@
 <template>
   <div class="keyword-search-box">
     <BasicUi_input :placeholder="placeholder" :input="_keyword" @update:input="(input) => _keyword = input"
-      @enter="f_search">
+      @keypress.enter="f_search()" @keypress.esc="f_close()">
       <slot />
     </BasicUi_input>
 
@@ -25,6 +25,17 @@ const $props = defineProps({
 const _data = ref(null)
 const { keyword: p_keyword } = toRefs($props)
 const _keyword = ref(null)
+const isWideScreen = ref(false)
+
+if (process.client) {
+  window.addEventListener('resize', () => {
+    console.log(window.innerWidth)
+    const currWidth = window.matchMedia('(min-width: 768px)')
+
+    console.log(window.matchMedia('(min-width: 768px)').matches)
+    isWideScreen.value = currWidth.matches
+  })
+}
 
 onMounted(async () => {
   _keyword.value = p_keyword.value
@@ -63,7 +74,7 @@ watch(p_keyword, (newVal) => {
 .keyword-search-box {
   display: inline-block;
   width: 100%;
-  max-width: 400px;
+  max-width: 390px;
   border: 1px solid lightgrey;
   border-radius: 2rem;
   padding: 5px 15px;

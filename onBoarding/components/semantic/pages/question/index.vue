@@ -12,14 +12,14 @@
           <CompoundData_search #searchResult="{ data, keyword }" :keyword="_keyword">
             <CompoundUi_keyword-search-box class="search" :keyword="keyword" @update:questions="f_updateData">
               <template />
-              <template #close="{ f_close: close }">
+              <template v-if="isWideScreen" #close="{ f_close: close }">
                 <BasicUi_icon-button>
                   <template #icon>
                     <div class="mdi mdi-close close-btn" @click="close(_keywordSearchQuery)"></div>
                   </template>
                 </BasicUi_icon-button>
               </template>
-              <template #search="{ f_search: search }">
+              <template v-if="isWideScreen" #search="{ f_search: search }">
                 <BasicUi_icon-button>
                   <template #icon>
                     <div class="mdi mdi-magnify magnify-btn" @click="search(_keywordSearchQuery)"></div>
@@ -52,7 +52,7 @@
         </section>
       </template>
     </BasicUiWrapper_single-line>
-    <div class="inquire-sector">
+    <div class="inquire-sector" :class="{ 'isWideScreen': isWideScreen }">
       <CompoundUi_description-box class="inquire-description" :description="'문제 해결이 되지 않으셨다면 문의하기를 이용해주세요.'" />
       <BasicUi_normal-button class="inquire-btn" :content="'문의하기'" @click="_router.push('/inquire')" />
     </div>
@@ -66,8 +66,17 @@ const _router = useRouter()
 const _keyword = ref(null)
 const _keywordSearchQuery = '/api/questions/search'
 const _datas = ref([])
+const isWideScreen = ref(false)
 let _currPage = 0
 let _pageSize = 1
+
+if (process.client) {
+  window.addEventListener('resize', () => {
+    const currWidth = window.matchMedia('(min-width: 430px)')
+
+    isWideScreen.value = currWidth.matches
+  })
+}
 
 const f_loadQuestion = async () => {
   const { data: questions } = await useFetch(`/api/questions?page=${_currPage + 1}&size=${_pageSize}`)
@@ -95,6 +104,8 @@ const f_onClickMore = async () => {
 
   _currPage += 1
   f_loadQuestion()
+
+
 }
 
 await f_loadQuestionCount()
@@ -103,7 +114,7 @@ await f_loadQuestion()
 
 <style lang="scss" scoped>
 .question-page {
-  min-width: 768px;
+  min-width: 320px;
 
   & .main {
     width: 80%;
@@ -136,6 +147,10 @@ await f_loadQuestion()
     text-align: center;
     width: 100%;
     background-color: #F2F3FE;
+
+    & .isWideScreen {
+      display: block;
+    }
 
     & .inquire-description {
       padding: 0 30px;

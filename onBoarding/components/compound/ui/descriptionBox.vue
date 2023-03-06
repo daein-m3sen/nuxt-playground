@@ -49,6 +49,7 @@ onBeforeUnmount(() => {
 
 <style lang="scss">
 .description-box {
+  display: inline-block;
   position: relative;
 
   .description {

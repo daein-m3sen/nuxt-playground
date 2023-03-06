@@ -11,7 +11,7 @@ const $props = defineProps({
   placeholder: {
     type: String,
     default: '입력해주세요'
-  }
+  },
 })
 
 const { input: p_input } = toRefs($props)
@@ -25,6 +25,6 @@ watch(p_input, (newVal) => _input.value = newVal)
 <style lang="scss" scoped>
 .input {
   font-size: 14px;
-  min-width: 250px;
+  min-width: 220px;
 }
 </style>
