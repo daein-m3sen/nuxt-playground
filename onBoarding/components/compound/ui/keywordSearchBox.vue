@@ -25,15 +25,15 @@ const $props = defineProps({
 const _data = ref(null)
 const { keyword: p_keyword } = toRefs($props)
 const _keyword = ref(null)
-const isWideScreen = ref(false)
+const _isWideScreen = ref(false)
 
 if (process.client) {
-  window.addEventListener('resize', () => {
-    console.log(window.innerWidth)
-    const currWidth = window.matchMedia('(min-width: 768px)')
+  _isWideScreen.value = window.matchMedia('(min-width: 430px)').matches
 
-    console.log(window.matchMedia('(min-width: 768px)').matches)
-    isWideScreen.value = currWidth.matches
+  window.addEventListener('resize', () => {
+    const currWidth = window.matchMedia('(min-width: 430px)')
+
+    _isWideScreen.value = currWidth.matches
   })
 }
 

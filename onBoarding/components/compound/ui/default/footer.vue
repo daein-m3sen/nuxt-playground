@@ -1,6 +1,6 @@
 <template>
   <footer class="default-footer">
-    <BasicUiWrapper_main :class="{ 'isWideScreen': isWideScreen }">
+    <BasicUiWrapper_main :class="{ 'isWideScreen': _isWideScreen }">
       <template #main class="footer-inner">
         <BasicUi_logo class="logo" />
         <div class="divide-line"></div>
@@ -20,12 +20,14 @@
 </template>
 
 <script setup>
-const isWideScreen = ref(true)
+const _isWideScreen = ref(false)
 
 if (process.client) {
+  _isWideScreen.value = window.matchMedia('(min-width: 430px)').matches
+
   window.addEventListener('resize', () => {
-    const currWidth = window.matchMedia('(min-width: 410px)')
-    isWideScreen.value = currWidth.matches
+    const currWidth = window.matchMedia('(min-width: 430px)')
+    _isWideScreen.value = currWidth.matches
   })
 }
 </script>

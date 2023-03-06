@@ -1,6 +1,6 @@
 <template>
   <div class="main-wrapper" ref="r_footer">
-    <slot v-if="!isWideScreen" class="single" name="main" />
+    <slot v-if="!_isWideScreen" class="single" name="main" />
     <slot v-else class="double" name="main">
       <slot name="left"></slot>
       <slot name="right"></slot>
@@ -9,12 +9,14 @@
 </template>
 
 <script setup>
-const isWideScreen = ref(false)
+const _isWideScreen = ref(false)
 
 if (process.client) {
+  _isWideScreen.value = window.matchMedia('(min-width: 430px)').matches
+
   window.addEventListener('resize', () => {
-    const currWidth = window.matchMedia('(min-width: 410px)')
-    isWideScreen.value = currWidth.matches
+    const currWidth = window.matchMedia('(min-width: 430px)')
+    _isWideScreen.value = currWidth.matches
   })
 }
 </script>

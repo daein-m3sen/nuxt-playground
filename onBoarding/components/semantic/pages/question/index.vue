@@ -12,17 +12,17 @@
           <CompoundData_search #searchResult="{ data, keyword }" :keyword="_keyword">
             <CompoundUi_keyword-search-box class="search" :keyword="keyword" @update:questions="f_updateData">
               <template />
-              <template v-if="isWideScreen" #close="{ f_close: close }">
+              <template v-if="_isWideScreen" #close="{ f_close: close }">
                 <BasicUi_icon-button>
                   <template #icon>
-                    <div class="mdi mdi-close close-btn" @click="close(_keywordSearchQuery)"></div>
+                    <div class="mdi mdi-close close-btn" @click="close"></div>
                   </template>
                 </BasicUi_icon-button>
               </template>
-              <template v-if="isWideScreen" #search="{ f_search: search }">
+              <template v-if="_isWideScreen" #search="{ f_search: search }">
                 <BasicUi_icon-button>
                   <template #icon>
-                    <div class="mdi mdi-magnify magnify-btn" @click="search(_keywordSearchQuery)"></div>
+                    <div class="mdi mdi-magnify magnify-btn" @click="search"></div>
                   </template>
                 </BasicUi_icon-button>
               </template>
@@ -44,7 +44,6 @@
           </div>
           <hr>
 
-          <!-- 데이터가 변경됨에 따라 내용이 달라져야함 -->
           <CompoundUiList_question-list :questions="_datas" />
 
           <BasicUi_border-button v-if="_count > (_currPage + 1) * _pageSize" class="more-btn"
@@ -52,7 +51,7 @@
         </section>
       </template>
     </BasicUiWrapper_single-line>
-    <div class="inquire-sector" :class="{ 'isWideScreen': isWideScreen }">
+    <div class="inquire-sector" :class="{ 'isWideScreen': _isWideScreen }">
       <CompoundUi_description-box class="inquire-description" :description="'문제 해결이 되지 않으셨다면 문의하기를 이용해주세요.'" />
       <BasicUi_normal-button class="inquire-btn" :content="'문의하기'" @click="_router.push('/inquire')" />
     </div>
@@ -61,20 +60,36 @@
 </template>
 
 <script setup>
+import { useExampleStore } from '@/stores'
+
 const _count = ref(0)
 const _router = useRouter()
 const _keyword = ref(null)
-const _keywordSearchQuery = '/api/questions/search'
 const _datas = ref([])
-const isWideScreen = ref(false)
+const _isWideScreen = ref(false)
 let _currPage = 0
 let _pageSize = 1
 
+const storeExample = useExampleStore()
+
+onMounted(() => {
+  console.log('pinia getter example:', storeExample.pageSize)
+  console.log('pinia action example:', storeExample.increasePageNum())
+  console.log('pinia action example:', storeExample.decreasePageNum())
+
+  storeExample.$patch({ pageSize: storeExample.pageSize + 1 })
+  console.log('pinia patch example:', storeExample.pageSize)
+  storeExample.$patch({ pageSize: storeExample.pageSize - 1 })
+  console.log('pinia patch example:', storeExample.pageSize)
+})
+
 if (process.client) {
+  _isWideScreen.value = window.matchMedia('(min-width: 430px)').matches
+
   window.addEventListener('resize', () => {
     const currWidth = window.matchMedia('(min-width: 430px)')
 
-    isWideScreen.value = currWidth.matches
+    _isWideScreen.value = currWidth.matches
   })
 }
 
