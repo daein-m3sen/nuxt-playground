@@ -10,7 +10,7 @@
       </BasicUi_icon-button>
     </div>
     <div v-if="_moreSwitch" class="board-box-content">
-      <BasicUi_content :content="postContent.content" />
+      <BasicUi_content :class="{ 'unfolding': !fadeoutAni }" :content="postContent.content" />
     </div>
   </div>
 </template>
@@ -22,19 +22,32 @@ const $props = defineProps({
   },
   idx: {
     type: Number
-  }
+  },
 })
+
 const _moreSwitch = ref(false)
+const fadeoutAni = ref(false)
+
 const f_onMoreBtnEvent = () => {
-  _moreSwitch.value = !_moreSwitch.value
+  if (_moreSwitch.value) {
+    fadeoutAni.value = !fadeoutAni.value
+
+    setTimeout(() => {
+      _moreSwitch.value = !_moreSwitch.value
+    }, 750)
+  } else {
+    fadeoutAni.value = !fadeoutAni.value
+    _moreSwitch.value = !_moreSwitch.value
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .board-box {
   padding: 20px 0;
-
   border-bottom: 1px solid lightgrey;
+  animation: slide_down .25s ease-in forwards;
+  transform-origin: top center;
 
   & .board-box-title {
     display: flex;
@@ -56,6 +69,41 @@ const f_onMoreBtnEvent = () => {
   & .board-box-content {
     display: block;
     padding: 0 45px;
+    animation: slide_down .75s ease-in forwards;
+    transform-origin: top center;
+
+    & .unfolding {
+      animation: slide_up .75s ease-in forwards;
+      transform-origin: top center;
+    }
+  }
+}
+
+@keyframes slide_up {
+  0% {
+    transform: scaleY(1);
+  }
+
+  60% {
+    transform: scaleY(1.05);
+  }
+
+  100% {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes slide_down {
+  0% {
+    transform: scaleY(0);
+  }
+
+  60% {
+    transform: scaleY(1.05);
+  }
+
+  100% {
+    transform: scaleY(1);
   }
 }
 </style>

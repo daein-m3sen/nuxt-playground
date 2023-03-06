@@ -13,10 +13,10 @@ const _isWideScreen = ref(false)
 
 onMounted(() => {
   if (process.client) {
-    _isWideScreen.value = window.matchMedia('(min-width: 430px)').matches
+    _isWideScreen.value = window.matchMedia('(min-width: 425px)').matches
 
     window.addEventListener('resize', () => {
-      const currWidth = window.matchMedia('(min-width: 430px)')
+      const currWidth = window.matchMedia('(min-width: 425px)')
       _isWideScreen.value = currWidth.matches
     })
   }
