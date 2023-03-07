@@ -4,6 +4,20 @@
   </div>
 </template>
 
+<script setup>
+import { useScreenStore } from '@/stores'
+
+const screenStore = useScreenStore()
+
+onBeforeMount(() => {
+  screenStore.initScreen()
+})
+
+onBeforeUnmount(() => {
+  screenStore.removeScreenEvt()
+})
+</script>
+
 <style>
 html,
 body,

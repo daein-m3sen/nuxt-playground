@@ -8,7 +8,7 @@
           <BasicUi_step-one-title class="title" :title="'자주하는 질문'" />
         </section>
 
-        <section class="search-sector" :class="{ 'isWideScreen': !_isWideScreen }">
+        <section class="search-sector">
           <CompoundData_search #searchResult="{ data, keyword }" :keyword="_keyword">
             <CompoundUi_keyword-search-box class="search" :keyword="keyword" @update:questions="f_updateData">
               <template />
@@ -37,10 +37,11 @@
             </template>
           </CompoundData_tags>
 
-          <div style="text-align: left">총 {{ _count }}건
-            <small>
+          <div style="text-align: left">
+            총 <strong style="color: #0099ff;">{{ _count }}</strong>건
+            <!-- <small>
               (현재 페이지: {{ _currPage + 1 }}, 페이지 사이즈: {{ _pageSize }})
-            </small>
+            </small> -->
           </div>
           <hr>
 
@@ -66,7 +67,7 @@ const _count = ref(0)
 const _router = useRouter()
 const _keyword = ref(null)
 const _datas = ref([])
-const _isWideScreen = ref(false)
+const _isWideScreen = ref(true)
 let _currPage = 0
 let _pageSize = 3
 
@@ -133,10 +134,8 @@ await f_loadQuestion()
     }
 
     & .search-sector {
-      display: inline-block;
-
       & .search {
-        margin: 30px 0 0 0;
+        margin: 30px auto 0 auto;
       }
     }
 

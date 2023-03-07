@@ -1,22 +1,22 @@
 import { defineStore } from 'pinia'
 
-export const useExampleStore = defineStore('example', {
+export const useScreenStore = defineStore('screen', {
   state: () => {
-    return { counter: 0, pageSize: 1, pageNum: 1 }
+    return { 
+      isMobile: false,
+    }
   },
   actions: {
-    increment() {
-      this.count++
-    },
-    increasePageNum() {
-      this.pageNum++
+    initScreen() {
+      this.isMobile = window.matchMedia('(min-width: 425px)').matches
 
-      return this.pageNum
+      window.addEventListener('resize', () => {
+        const currWidth = window.matchMedia('(min-width: 425px)')
+        this.isMobile = currWidth.matches
+      })
     },
-    decreasePageNum() {
-      this.pageNum--
-
-      return this.pageNum
+    removeScreenEvt() {
+      window.removeEventListener('resize', false)
     }
   }
 })

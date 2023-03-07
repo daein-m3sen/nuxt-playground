@@ -50,6 +50,8 @@ const f_onMoreBtnEvent = () => {
   & .board-box-title {
     background-color: white;
     display: flex;
+    animation: rotateX_unfolding .25s ease-in forwards;
+    transform-origin: top center;
 
     & .title {
       width: calc(100% - 40px);
