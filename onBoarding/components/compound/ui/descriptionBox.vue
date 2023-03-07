@@ -23,6 +23,7 @@ const $props = defineProps({
 
 <style lang="scss" scoped>
 .description-box {
+  display: inline-block;
   position: relative;
   margin: auto;
 }
