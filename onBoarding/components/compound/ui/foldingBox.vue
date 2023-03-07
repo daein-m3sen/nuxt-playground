@@ -10,7 +10,7 @@
       </BasicUi_icon-button>
     </div>
     <div v-if="_moreSwitch" class="board-box-content">
-      <BasicUi_content :class="{ 'unfolding': !fadeoutAni }" :content="postContent.content" />
+      <BasicUi_content :class="{ 'unfolding': !_fadeoutAni }" :content="postContent.content" />
     </div>
   </div>
 </template>
@@ -26,17 +26,17 @@ const $props = defineProps({
 })
 
 const _moreSwitch = ref(false)
-const fadeoutAni = ref(false)
+const _fadeoutAni = ref(false)
 
 const f_onMoreBtnEvent = () => {
   if (_moreSwitch.value) {
-    fadeoutAni.value = !fadeoutAni.value
+    _fadeoutAni.value = !_fadeoutAni.value
 
     setTimeout(() => {
       _moreSwitch.value = !_moreSwitch.value
     }, 500)
   } else {
-    fadeoutAni.value = !fadeoutAni.value
+    _fadeoutAni.value = !_fadeoutAni.value
     _moreSwitch.value = !_moreSwitch.value
   }
 }

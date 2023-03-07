@@ -53,7 +53,8 @@
       </template>
     </BasicUiWrapper_single-line>
     <div class="inquire-sector" :class="{ 'isWideScreen': _isWideScreen }">
-      <CompoundUi_description-box class="inquire-description" :description="'문제 해결이 되지 않으셨다면 문의하기를 이용해주세요.'" />
+      <CompoundUi_description-box class="inquire-description" :link="'https://www.m3sen.com/#aboutus'"
+        :description="'문제 해결이 되지 않으셨다면 문의하기를 이용해주세요.'" />
       <BasicUi_normal-button class="inquire-btn" :content="'문의하기'" @click="_router.push('/inquire')" />
     </div>
     <CompoundUiDefault_footer />

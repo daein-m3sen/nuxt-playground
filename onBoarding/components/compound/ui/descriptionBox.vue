@@ -1,7 +1,7 @@
 <template>
   <span class="description-box">
-    <BasicUi_description>
-      <template v-if="_isShow" #external />
+    <BasicUi_description :link="link">
+      <template #external />
     </BasicUi_description>
     {{ description }}
   </span>
@@ -12,39 +12,13 @@ const $props = defineProps({
   description: {
     type: String,
     default: '추가 설명이 나오는 부분입니다.'
+  },
+  link: {
+    type: String
   }
 })
 
-const _isShow = ref(false)
-const h_keyDown = (evt) => {
-  evt.stopPropagation()
 
-  switch (evt.key) {
-    case 'Shift':
-      _isShow.value = true
-      break
-    default:
-      _isShow.value = false
-      break
-  }
-}
-
-const h_keyUp = (evt) => {
-  evt.stopPropagation()
-  _isShow.value = false
-}
-
-onMounted(() => {
-  window.addEventListener('keyup', h_keyUp)
-  window.addEventListener('keydown', h_keyDown)
-  window.addEventListener('onmouseleave', h_keyUp)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('keyup', h_keyUp, false)
-  window.removeEventListener('keydown', h_keyDown, false)
-  window.addEventListener('onmouseleave', h_keyUp, false)
-})
 </script>
 
 <style lang="scss" scoped>

@@ -1,6 +1,6 @@
 <template>
   <slot v-if="$slots.external" name="external">
-    <span class="description">
+    <span v-if="_isShow" class="description">
       <a class="link" :href="link">{{ link }}</a>
     </span>
   </slot>
@@ -19,6 +19,7 @@ const h_keyDown = (evt) => {
   evt.stopPropagation()
 
   switch (evt.key) {
+
     case 'Shift':
       _isShow.value = true
       break
@@ -27,6 +28,10 @@ const h_keyDown = (evt) => {
       break
   }
 }
+
+onMounted(() => {
+  console.log($props.keyEvt)
+})
 
 const h_keyUp = (evt) => {
   evt.stopPropagation()
@@ -48,8 +53,8 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .description {
-  padding: 10px;
   top: -50px;
+  padding: 10px;
   position: absolute;
   background-color: white;
   border: 1px solid lightgrey;
