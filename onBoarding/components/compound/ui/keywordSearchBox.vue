@@ -1,7 +1,7 @@
 <template>
   <div class="keyword-search-box">
     <BasicUi_input :placeholder="placeholder" :input="_keyword" @update:input="(input) => _keyword = input"
-      @keypress.enter="f_search()" @keypress.esc="f_close()">
+      @keypress.enter="f_search()" @keydown.escape="f_close()">
       <slot />
     </BasicUi_input>
 
@@ -44,7 +44,6 @@ onMounted(async () => {
 const $emit = defineEmits(['update:questions'])
 
 const f_close = async (query = '/api/questions/search') => {
-  console.log(`${query}/all`)
   const { data } = await useFetch(`${query}/all`)
 
   _data.value = data.value

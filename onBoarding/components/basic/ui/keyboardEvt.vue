@@ -1,20 +1,8 @@
 <template>
-  <span class="description-box">
-    <BasicUi_description>
-      <template v-if="_isShow" #external />
-    </BasicUi_description>
-    {{ description }}
-  </span>
+  <slot v-if="_isShow" />
 </template>
 
 <script setup>
-const $props = defineProps({
-  description: {
-    type: String,
-    default: '추가 설명이 나오는 부분입니다.'
-  }
-})
-
 const _isShow = ref(false)
 const h_keyDown = (evt) => {
   evt.stopPropagation()
@@ -46,10 +34,3 @@ onBeforeUnmount(() => {
   window.addEventListener('onmouseleave', h_keyUp, false)
 })
 </script>
-
-<style lang="scss" scoped>
-.description-box {
-  position: relative;
-  margin: auto;
-}
-</style>
