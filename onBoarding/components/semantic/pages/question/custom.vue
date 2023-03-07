@@ -1,11 +1,11 @@
 <template>
-  <div class="main-page">
+  <div class="consult-page">
     <CompoundUiDefault_header @click="router.push('/')" />
     <div class="main">
       <div>
-        <span>메인페이지입니다.</span>
+        <span>상담 등록 페이지입니다.</span>
       </div>
-      <button class="qna-btn" @click="router.push('/question')">Q&A</button>
+      <button class="qna-btn" @click="router.push('/')">main</button>
     </div>
 
     <CompoundUiDefault_footer />
@@ -17,7 +17,7 @@ const router = useRouter()
 </script>
 
 <style lang="scss">
-.main-page {
+.consult-page {
   height: 100%;
   display: flex;
   flex-direction: column;

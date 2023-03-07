@@ -1,6 +1,6 @@
 <template>
   <div class="question-page">
-    <CompoundUiDefault_header />
+    <CompoundUiDefault_header @click="$router.push('/')" />
 
     <BasicUiWrapper_single-line class="main">
       <template #center>
@@ -67,7 +67,7 @@ const _keyword = ref(null)
 const _datas = ref([])
 const _isWideScreen = ref(false)
 let _currPage = 0
-let _pageSize = 1
+let _pageSize = 3
 
 onMounted(() => {
   if (process.client) {
@@ -95,7 +95,7 @@ const f_loadQuestionCount = async () => {
 
 const f_updateData = async (newVal) => {
   _currPage = 0
-  _pageSize = 1
+  _pageSize = 3
 
   _count.value = newVal.data.length
   _datas.value = newVal.data.slice(_currPage, ((_currPage + 1) * _pageSize))

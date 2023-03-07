@@ -34,7 +34,7 @@ const f_onMoreBtnEvent = () => {
 
     setTimeout(() => {
       _moreSwitch.value = !_moreSwitch.value
-    }, 750)
+    }, 500)
   } else {
     fadeoutAni.value = !fadeoutAni.value
     _moreSwitch.value = !_moreSwitch.value
@@ -46,10 +46,9 @@ const f_onMoreBtnEvent = () => {
 .board-box {
   padding: 20px 0;
   border-bottom: 1px solid lightgrey;
-  animation: slide_down .25s ease-in forwards;
-  transform-origin: top center;
 
   & .board-box-title {
+    background-color: white;
     display: flex;
 
     & .title {
@@ -69,23 +68,51 @@ const f_onMoreBtnEvent = () => {
   & .board-box-content {
     display: block;
     padding: 0 45px;
-    animation: slide_down .75s ease-in forwards;
+    animation: rotateX_unfolding .5s ease-in forwards;
     transform-origin: top center;
 
     & .unfolding {
-      animation: slide_up .75s ease-in forwards;
+      animation: rotateX_folding .5s ease-in forwards;
       transform-origin: top center;
     }
+  }
+}
+
+@keyframes rotateX_unfolding {
+  0% {
+    opacity: 0;
+    transform: rotateX(-90deg);
+  }
+
+  50% {
+    transform: rotateX(-20deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes rotateX_folding {
+  0% {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+
+  50% {
+    transform: rotateX(-20deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: rotateX(-90deg);
   }
 }
 
 @keyframes slide_up {
   0% {
     transform: scaleY(1);
-  }
-
-  60% {
-    transform: scaleY(1.05);
   }
 
   100% {
@@ -96,10 +123,6 @@ const f_onMoreBtnEvent = () => {
 @keyframes slide_down {
   0% {
     transform: scaleY(0);
-  }
-
-  60% {
-    transform: scaleY(1.05);
   }
 
   100% {
