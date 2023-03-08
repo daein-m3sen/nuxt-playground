@@ -60,6 +60,7 @@ onMounted(() => {
 
     & .title-sector {
       & .title {
+        color: v-bind('themes._target.theme.titleColor');
         margin: 50px 0;
       }
     }
@@ -91,11 +92,11 @@ onMounted(() => {
     margin: 50px 0 0 0;
     text-align: center;
     width: 100%;
-    background-color: #F2F3FE;
+    background-color: v-bind('themes._target.theme.opacityBackgroundColor');
 
     & .inquire-description {
       padding: 0 30px;
-      color: #5C8EFE;
+      color: v-bind('themes._target.theme.blueEmphaColor');
     }
   }
 

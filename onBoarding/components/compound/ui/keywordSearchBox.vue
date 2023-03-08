@@ -27,20 +27,6 @@ const { keyword: p_keyword } = toRefs($props)
 const _keyword = ref(null)
 const _isWideScreen = ref(false)
 
-onMounted(async () => {
-  _keyword.value = p_keyword.value
-
-  if (process.client) {
-    _isWideScreen.value = window.matchMedia('(min-width: 425px)').matches
-
-    window.addEventListener('resize', () => {
-      const currWidth = window.matchMedia('(min-width: 425px)')
-
-      _isWideScreen.value = currWidth.matches
-    })
-  }
-})
-
 const $emit = defineEmits(['update:questions'])
 
 const f_close = async (query = '/api/questions/search') => {

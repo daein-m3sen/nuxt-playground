@@ -1,6 +1,12 @@
 <template>
   <header class="default-header">
-    <BasicUi_logo />
+    <BasicUi_logo class="logo" />
+    <BasicUi_icon-button class="item">
+      <template v-slot:icon>
+        <!-- <div @click="changeMode" style="font-size: 24px" class="mdi mdi-theme-light-dark">
+        </div> -->
+      </template>
+    </BasicUi_icon-button>
   </header>
 </template>
 
@@ -12,5 +18,9 @@
   height: 60px;
   border-bottom: 1px solid lightgrey;
   background-color: white;
+
+  & .item {
+    margin-left: auto;
+  }
 }
 </style>

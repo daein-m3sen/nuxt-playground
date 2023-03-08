@@ -9,7 +9,7 @@
         </template>
       </BasicUi_icon-button>
     </div>
-    <div v-if="_moreSwitch" class="board-box-content">
+    <div v-if="_moreSwitch" class="board-box-content" @click="f_onMoreBtnEvent">
       <BasicUi_content :class="{ 'unfolding': !_fadeoutAni }" :content="postContent.content" />
     </div>
   </div>
