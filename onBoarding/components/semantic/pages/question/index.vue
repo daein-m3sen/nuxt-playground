@@ -71,18 +71,6 @@ const _isWideScreen = ref(true)
 let _currPage = 0
 let _pageSize = 3
 
-onMounted(() => {
-  if (process.client) {
-    _isWideScreen.value = window.matchMedia('(min-width: 425px)').matches
-
-    window.addEventListener('resize', () => {
-      const currWidth = window.matchMedia('(min-width: 425px)')
-
-      _isWideScreen.value = currWidth.matches
-    })
-  }
-})
-
 const f_loadQuestion = async () => {
   const { data: questions } = await useFetch(`/api/questions?page=${_currPage + 1}&size=${_pageSize}`)
 
@@ -129,6 +117,7 @@ await f_loadQuestion()
 
     & .title-sector {
       & .title {
+        color: v-bind('themes._target.theme.titleColor');
         margin: 50px 0;
       }
     }
@@ -160,11 +149,11 @@ await f_loadQuestion()
     margin: 50px 0 0 0;
     text-align: center;
     width: 100%;
-    background-color: #F2F3FE;
+    background-color: v-bind('themes._target.theme.opacityBackgroundColor');
 
     & .inquire-description {
       padding: 0 30px;
-      color: #5C8EFE;
+      color: v-bind('themes._target.theme.blueEmphaColor');
     }
   }
 

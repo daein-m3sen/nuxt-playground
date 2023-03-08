@@ -29,10 +29,6 @@ const h_keyDown = (evt) => {
   }
 }
 
-onMounted(() => {
-  console.log($props.keyEvt)
-})
-
 const h_keyUp = (evt) => {
   evt.stopPropagation()
   _isShow.value = false
@@ -56,8 +52,8 @@ onBeforeUnmount(() => {
   top: -50px;
   padding: 10px;
   position: absolute;
-  background-color: white;
-  border: 1px solid lightgrey;
+  background-color: v-bind('themes._target.theme.lightBackgroundColor');
+  border: v-bind('themes._target.theme.borderStyle');
   border-radius: 0.25rem;
   animation: rotateY_unfolding .5s ease-in forwards;
   transform-origin: top left;
