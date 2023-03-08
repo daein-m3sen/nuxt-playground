@@ -5,8 +5,8 @@
       <slot />
     </BasicUi_input>
 
-    <slot v-if="$slots.close" name="close" :="{ f_close }" />
-    <slot v-if="$slots.search" name="search" :="{ f_search }" />
+    <slot v-if="$slots.close" name="close" :="{ close: f_close }" />
+    <slot v-if="$slots.search" name="search" :="{ search: f_search }" />
   </div>
 </template>
 

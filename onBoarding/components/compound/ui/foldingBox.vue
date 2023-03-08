@@ -40,6 +40,10 @@ const f_onMoreBtnEvent = () => {
     _moreSwitch.value = !_moreSwitch.value
   }
 }
+
+watch($props, () => {
+  _moreSwitch.value = false
+})
 </script>
 
 <style lang="scss" scoped>

@@ -29,10 +29,6 @@ const h_keyDown = (evt) => {
   }
 }
 
-onMounted(() => {
-  console.log($props.keyEvt)
-})
-
 const h_keyUp = (evt) => {
   evt.stopPropagation()
   _isShow.value = false

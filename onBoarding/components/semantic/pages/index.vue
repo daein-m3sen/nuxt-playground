@@ -1,14 +1,15 @@
 <template>
   <div class="main-page">
-    <CompoundUiDefault_header @click="router.push('/')" />
-    <div class="main">
-      <div>
-        <span>메인페이지입니다.</span>
-      </div>
-      <button class="qna-btn" @click="router.push('/question')">Q&A</button>
-    </div>
-
-    <CompoundUiDefault_footer />
+    <CompoundUiLayout>
+      <template #default>
+        <div class="main">
+          <div>
+            <span>메인페이지입니다.</span>
+          </div>
+          <button class="qna-btn" @click="router.push('/question')">Q&A</button>
+        </div>
+      </template>
+    </CompoundUiLayout>
   </div>
 </template>
 

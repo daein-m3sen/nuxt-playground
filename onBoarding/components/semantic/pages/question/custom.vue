@@ -1,14 +1,15 @@
 <template>
   <div class="consult-page">
-    <CompoundUiDefault_header @click="router.push('/')" />
-    <div class="main">
-      <div>
-        <span>상담 등록 페이지입니다.</span>
-      </div>
-      <button class="qna-btn" @click="router.push('/')">main</button>
-    </div>
-
-    <CompoundUiDefault_footer />
+    <CompoundUiLayout>
+      <template #default>
+        <div class="main">
+          <div>
+            <span>상담 등록 페이지입니다.</span>
+          </div>
+          <button class="qna-btn" @click="router.push('/')">main</button>
+        </div>
+      </template>
+    </CompoundUiLayout>
   </div>
 </template>
 
