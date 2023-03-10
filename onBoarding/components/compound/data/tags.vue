@@ -1,6 +1,6 @@
 <template>
   <BasicData_fetch-apply :urls="urls" #data="tags">
-    <slot name="tags" :data="tags.data" />
+    <slot name="tags" :result="tags.data" />
   </BasicData_fetch-apply>
 </template>
 

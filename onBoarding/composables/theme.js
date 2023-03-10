@@ -9,6 +9,6 @@ const themes = {
 export const defineTheme = (theme = 'light') => {
   return {
     theme,
-    _target: themes[theme] || {}
+    current: themes[theme] || {}
   }
 }

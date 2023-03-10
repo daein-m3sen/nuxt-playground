@@ -7,16 +7,17 @@ export const useScreenStore = defineStore('screen', {
     }
   },
   actions: {
+    resizeEvt() {
+      const currWidth = window.matchMedia('(min-width: 425px)')
+      this.isMobile = currWidth.matches
+    },
     initScreen() {
       this.isMobile = window.matchMedia('(min-width: 425px)').matches
 
-      window.addEventListener('resize', () => {
-        const currWidth = window.matchMedia('(min-width: 425px)')
-        this.isMobile = currWidth.matches
-      })
+      window.addEventListener('resize', this.resizeEvt)
     },
     removeScreenEvt() {
-      window.removeEventListener('resize', false)
+      window.removeEventListener('resize', this.resizeEvt, false)
     }
   }
 })

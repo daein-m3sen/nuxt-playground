@@ -15,7 +15,7 @@ const $props = defineProps({
 })
 
 const _data = ref(null)
-const $emit = defineEmits(['update:questions'])
+const $emit = defineEmits(['update:result'])
 
 const f_search = async (keyword) => {
   const query = keyword === null
@@ -24,6 +24,6 @@ const f_search = async (keyword) => {
   const { data } = await useFetch(query)
 
   _data.value = data.value
-  $emit('update:questions', { data: _data.value, keyword })
+  $emit('update:result', { result: _data.value, keyword })
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="line">
-    <slot name="center"></slot>
+    <slot class=".line" name="center"></slot>
   </div>
 </template>
 

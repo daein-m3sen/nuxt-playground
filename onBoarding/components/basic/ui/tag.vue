@@ -15,7 +15,7 @@ const $props = defineProps({
 .tag {
   margin: 0 10px;
   font-size: 14px;
-  color: v-bind('themes._target.theme.tagColor');
+  color: v-bind('themes.current.theme.tagColor');
 
   &:hover {
     color: #91B6FF;

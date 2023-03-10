@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <slot>
-      <CompoundUi_folding-box v-for="(question, idx) of questions" :key="idx" :postContent="question" />
-    </slot>
-  </div>
+  <slot>
+    <CompoundUi_folding-box v-for="(question, idx) of questions" :key="idx" :postContent="question" />
+  </slot>
 </template>
 
 <script setup>

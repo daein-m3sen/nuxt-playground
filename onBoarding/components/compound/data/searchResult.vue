@@ -1,6 +1,6 @@
 <template>
   <BasicData_fetch-apply :urls="urls" #data="search">
-    <slot name="searchResult" :data="search.data" :keyword="keyword" />
+    <slot name="searchResult" :result="search.data" :keyword="keyword" />
   </BasicData_fetch-apply>
 </template>
 

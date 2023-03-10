@@ -1,5 +1,5 @@
 <template>
-  <div class="keyword-search-box">
+  <section class="keyword-search-box">
     <BasicUi_input :placeholder="placeholder" :input="_keyword" @update:input="(input) => _keyword = input"
       @keypress.enter="f_search()" @keydown.escape="f_close()">
       <slot />
@@ -7,10 +7,12 @@
 
     <slot v-if="$slots.close" name="close" :="{ close: f_close }" />
     <slot v-if="$slots.search" name="search" :="{ search: f_search }" />
-  </div>
+  </section>
 </template>
 
 <script setup>
+import { useScreenStore } from "../../../stores"
+
 const $props = defineProps({
   placeholder: {
     type: String,
@@ -25,9 +27,10 @@ const $props = defineProps({
 const _data = ref(null)
 const { keyword: p_keyword } = toRefs($props)
 const _keyword = ref(null)
+const screentStore = useScreenStore()
 const _isWideScreen = ref(false)
 
-const $emit = defineEmits(['update:questions'])
+const $emit = defineEmits(['update:result'])
 
 const f_close = async (query = '/api/questions/search') => {
   const { data } = await useFetch(`${query}/all`)
@@ -35,19 +38,19 @@ const f_close = async (query = '/api/questions/search') => {
   _data.value = data.value
   _keyword.value = null
 
-  $emit('update:questions', { data: _data.value, keyword: _keyword.value })
+  $emit('update:result', { result: _data.value, keyword: _keyword.value })
 }
 
-const f_search = async (f_query = '/api/questions/search') => {
-  const query = _keyword.value === null
-    ? `${f_query}/all`
-    : `${f_query}/${_keyword.value}`
+const f_search = async (query = '/api/questions/search') => {
+  const combine_query = _keyword.value === null
+    ? `${query}/all`
+    : `${query}/${_keyword.value}`
 
-  const { data } = await useFetch(query)
+  const { data } = await useFetch(combine_query)
 
   _data.value = data.value
 
-  $emit('update:questions', { data: _data.value, keyword: _keyword.value })
+  $emit('update:result', { result: _data.value, keyword: _keyword.value })
 }
 
 watch(p_keyword, (newVal) => {

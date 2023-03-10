@@ -52,8 +52,8 @@ onBeforeUnmount(() => {
   top: -50px;
   padding: 10px;
   position: absolute;
-  background-color: v-bind('themes._target.theme.lightBackgroundColor');
-  border: v-bind('themes._target.theme.borderStyle');
+  background-color: v-bind('themes.current.theme.lightBackgroundColor');
+  border: v-bind('themes.current.theme.borderStyle');
   border-radius: 0.25rem;
   animation: rotateY_unfolding .5s ease-in forwards;
   transform-origin: top left;

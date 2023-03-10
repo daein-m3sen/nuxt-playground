@@ -43,6 +43,7 @@ const f_onMoreBtnEvent = () => {
 
 watch($props, () => {
   _moreSwitch.value = false
+  _fadeoutAni.value = false
 })
 </script>
 

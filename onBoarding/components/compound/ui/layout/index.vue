@@ -1,7 +1,9 @@
 <template>
   <div>
-    <CHeader @click="$router.push('/')" />
-    <slot v-if="$slots.default" />
+    <CHeader />
+    <main>
+      <slot v-if="$slots.default" />
+    </main>
     <CFooter />
   </div>
 </template>

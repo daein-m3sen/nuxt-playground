@@ -8,13 +8,15 @@ export default nuxt => {
     methods: {
       changeMode() {
         this._theme === 'light' ? this._theme = 'dark' : this._theme = 'light'
+        // this.themes.theme = this._theme
       }
     },
     computed: {
-      themes (val) {
-        console.log('val', val)
+      themes() {
+        // console.log('changed showing mode')
+        // console.log(this.themes)
         return defineTheme(this._theme)
-      }
+      },
     }
   })
 }
