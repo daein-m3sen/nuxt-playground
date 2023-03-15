@@ -11,8 +11,6 @@
 </template>
 
 <script setup>
-import { useScreenStore } from "../../../stores"
-
 const $props = defineProps({
   placeholder: {
     type: String,
@@ -27,8 +25,6 @@ const $props = defineProps({
 const _data = ref(null)
 const { keyword: p_keyword } = toRefs($props)
 const _keyword = ref(null)
-const screentStore = useScreenStore()
-const _isWideScreen = ref(false)
 
 const $emit = defineEmits(['update:result'])
 
@@ -70,6 +66,10 @@ watch(p_keyword, (newVal) => {
 
   & input {
     width: calc(100% - 35px - 35px);
+  }
+
+  &:focus-within {
+    box-shadow: 0 0 0 2px #5C8EFE inset;
   }
 }
 </style>

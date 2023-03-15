@@ -4,22 +4,23 @@ const types = {
     500: 'rgba(0, 0, 0, .5)',
   },
   daein: {
-    1000: 'rgba(80, 80, 80, 1)',
-    500: 'rgba(80, 80, 80, 0.1)',
+    1000: 'rgba(46, 46, 46, 1)',
+    700: 'rgba(46, 46, 46, 0.8)',
+    500: 'rgba(46, 46, 46, 0.6)',
 
-    titleColor: '#505050',
-    opacityBackgroundColor: '#F2F3FE',
-    lightBackgroundColor: 'white',
+    opacityBackgroundColor: 'rgba(242, 243, 254, 1)', // #F2F3FE
+    backgroundColor: 'white',
     borderStyle: ' 1px solid lightgrey',
-    LargeButtonBackgroundColor: '#005BFE',
+    primaryBtnColor: 'rgba(0, 91, 254, 1)', // #005BFE
+    iconColor: '#2e2e2e',
     tagColor: 'grey',
-    blueEmphaColor: '#5C8EFE',
+    emphaColor: '#5C8EFE',
   }
 }
 
 export default {
   types,
   theme: types.daein,
-  defaultBackground: 'white',
-  defaultFontColor: types.daein[500]
+  defaultBackground: '#FFFFFF',
+  defaultFontColor: types.daein[700]
 }

@@ -17,7 +17,6 @@ const $props = defineProps({
   margin: 10px 0;
   padding: 10px 30px;
   color: white;
-  background-color: v-bind('themes.current.theme.LargeButtonBackgroundColor');
   font-weight: 600;
   border-radius: 0.5rem;
 }

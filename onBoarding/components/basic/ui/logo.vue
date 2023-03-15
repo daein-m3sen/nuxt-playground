@@ -9,7 +9,9 @@
   padding: 15px;
 
   .logo-inner {
+    display: block;
     width: 100px;
+    margin: auto;
   }
 }
 </style>

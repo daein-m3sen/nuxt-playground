@@ -51,9 +51,9 @@ watch($props, () => {
 .board-box {
   padding: 20px 0;
   border-bottom: 1px solid lightgrey;
+  color: v-bind('c__themes.defaultFontColor');
 
   & .board-box-title {
-    background-color: white;
     display: flex;
     animation: rotateX_unfolding .25s ease-in forwards;
     transform-origin: top center;

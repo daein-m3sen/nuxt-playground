@@ -1,7 +1,7 @@
 <template>
-  <div class="line">
-    <slot class=".line" name="center"></slot>
-  </div>
+  <main class="line">
+    <slot name="center"></slot>
+  </main>
 </template>
 
 <style lang="scss" scoped>

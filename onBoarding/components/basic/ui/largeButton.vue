@@ -16,7 +16,6 @@ const $props = defineProps({
   height: 60px;
   padding: 10px 30px;
   color: white;
-  background-color: v-bind('themes.current.theme.buttonBackgroundColor');
   border-radius: 0.5rem;
 }
 </style>

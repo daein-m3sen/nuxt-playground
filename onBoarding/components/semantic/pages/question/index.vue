@@ -1,6 +1,6 @@
 <template>
   <div class="question-page">
-    <CompoundUiLayout>
+    <CompoundUiLayout class="layout">
       <template #default>
         <BasicUiWrapper-single_line class="main">
           <template #center>
@@ -35,12 +35,19 @@
             </section>
             <section class="content-section">
               <div style="text-align: left">
-                총 <strong style="color: #0099ff;">{{ _count }}</strong>건
+                총 <strong style="color: rgb(128, 128, 128, 1);">{{ _count }}</strong>건
               </div>
               <hr>
               <CompoundUiList-question_list :questions="_datas" />
               <BasicUi-border_button v-if="_count > (_currPage + 1) * _pageSize" class="more-btn"
                 :content="`더보기 ${_count ? (_currPage + 1) * _pageSize : 0} / ${_count}`" @click="f_onClickMore" />
+              <BasicUi-icon_button v-else>
+                <template #icon>
+                  <div class="mdi upper-btn mdi-arrow-up-drop-circle-outline">
+                    <span class="btn-title">위로</span>
+                  </div>
+                </template>
+              </BasicUi-icon_button>
             </section>
           </template>
         </BasicUiWrapper-single_line>
@@ -62,6 +69,15 @@ const _datas = ref([])
 
 let _currPage = 0
 let _pageSize = 3
+
+onMounted(() => {
+  window.addEventListener('scroll', f_scrollTopEvt)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', f_scrollTopEvt, false)
+})
+
 
 const f_loadQuestion = async () => {
   const { data: questions } = await useFetch(`/api/questions?page=${_currPage + 1}&size=${_pageSize}`)
@@ -91,6 +107,10 @@ const f_onClickMore = async () => {
   await f_loadQuestion()
 }
 
+const f_scrollTopEvt = () => {
+  window.clientTop({ top: 0, behavior: "smooth" })
+}
+
 await f_loadQuestionCount()
 await f_loadQuestion()
 </script>
@@ -111,17 +131,13 @@ await f_loadQuestion()
       margin: 40px 0;
 
       & .title {
-        color: v-bind('themes.current.titleColor');
+        color: v-bind('c__themes.defaultFontColor');
         margin: 50px 0;
       }
     }
 
     & .search-section {
       margin: 30px 0 10px 0;
-
-      & .close-btn {
-        color: lightgrey;
-      }
 
       & .is-mobile {
         @media (max-width: 425px) {
@@ -136,6 +152,7 @@ await f_loadQuestion()
 
     & .content-section {
       margin: 30px 0;
+      color: v-bind('c__themes.defaultFontColor');
 
       & .more-btn {
         @media (max-width: 425px) {
@@ -144,6 +161,16 @@ await f_loadQuestion()
         }
 
         margin: 50px 0 20px 0;
+      }
+
+      & .upper-btn {
+        width: 100%;
+        margin: 40px 0 20px 0;
+
+        & .btn-title {
+          display: block;
+          font-size: 14px;
+        }
       }
     }
   }
@@ -158,11 +185,15 @@ await f_loadQuestion()
     margin: 50px 0 0 0;
     text-align: center;
     width: 100%;
-    background-color: v-bind('themes.current.theme.opacityBackgroundColor');
+    background-color: v-bind('c__themes.theme.opacityBackgroundColor');
+
+    & .inquire-btn {
+      background-color: v-bind('c__themes.theme.primaryBtnColor');
+    }
 
     & .inquire-description {
       padding: 0 30px;
-      color: v-bind('themes.current.theme.blueEmphaColor');
+      color: v-bind('c__themes.theme.emphaColor');
     }
   }
 

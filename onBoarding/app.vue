@@ -31,6 +31,7 @@ body,
 .app {
   height: 100%;
   animation: fade_in .25s ease-in-out;
+  background-color: v-bind('c__themes.backgroundColor');
 }
 
 @keyframes fade_in {

@@ -21,18 +21,23 @@
   </footer>
 </template>
 
+<script setup>
+//
+</script>
 
 <style lang="scss" scoped>
 .default-footer {
   display: block;
   border-top: 1px solid lightgrey;
-  background-color: white;
+  color: v-bind('c__themes.defaultFontColor');
+  background-color: v-bind('c__themes.defaultBackground');
   text-align: center;
 
   & .logo {
     padding: 20px 30px;
     margin: auto;
     flex-grow: 1;
+    filter: v-bind('c__themes.theme.invertPercentage');
   }
 
   & .description {

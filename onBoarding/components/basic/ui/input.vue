@@ -24,8 +24,21 @@ watch(p_input, (newVal) => _input.value = newVal)
 
 <style lang="scss" scoped>
 .input {
+  display: inline-block;
   font-size: 14px;
-  text-align: center;
+  text-align: left;
   min-width: 220px;
+  padding: 0 10px;
+
+  color: v-bind('c__themes.defaultFontColor');
+
+  &::placeholder {
+    text-align: center;
+    color: v-bind('c__themes.defaultFontColor');
+  }
+
+  &:focus {
+    outline: none;
+  }
 }
 </style>

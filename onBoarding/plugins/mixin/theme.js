@@ -2,21 +2,20 @@ export default nuxt => {
   nuxt.vueApp.mixin({
     data () {
       return {
-        _theme: this.$props.theme || inject('theme', ref('light'))
+        __theme: this.$props.theme || inject('theme', ref('light')),
+        __local_theme: this.$props.theme || inject('theme', ref('light')),
       }
     },
     methods: {
-      changeMode() {
-        this._theme === 'light' ? this._theme = 'dark' : this._theme = 'light'
-        // this.themes.theme = this._theme
+      f__changeMode() {
+        if (this.__local_theme) this.__local_theme === 'light' ? this.__local_theme = 'dark' : this.__local_theme = 'light'
+        else this.__local_theme = this.__theme
       }
     },
     computed: {
-      themes() {
-        // console.log('changed showing mode')
-        // console.log(this.themes)
-        return defineTheme(this._theme)
+      c__themes() {
+        return defineTheme(this.__local_theme || this.__theme).current
       },
-    }
+    },
   })
 }
