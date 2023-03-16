@@ -23,15 +23,15 @@ onBeforeUnmount(() => {
 html,
 body,
 #__nuxt {
-  overflow: auto;
-  height: 100%;
-  width: 100%;
+  /* overflow: auto; */
+  height: 100vh;
+  width: 100vw;
 }
 
 .app {
   height: 100%;
   animation: fade_in .25s ease-in-out;
-  background-color: v-bind('c__themes.backgroundColor');
+  background-color: v-bind('c__themes.theme.backgroundColor');
 }
 
 @keyframes fade_in {

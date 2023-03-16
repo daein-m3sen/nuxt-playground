@@ -1,6 +1,6 @@
 <template>
   <div class="main-page">
-    <CompoundUiLayout>
+    <CompoundUiLayout @change:theme="emit('change:theme')">
       <template #default>
         <div class="main">
           <div>
@@ -15,6 +15,8 @@
 
 <script setup>
 const router = useRouter()
+
+const emit = defineEmits(['change:theme'])
 </script>
 
 <style lang="scss">
@@ -26,6 +28,8 @@ const router = useRouter()
   & .main {
     flex: 1 0 auto;
     padding: 40px;
+
+    color: v-bind('c__themes.defaultFontColor');
 
     & .qna-btn {
       padding: 5px 20px;

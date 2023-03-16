@@ -15,6 +15,7 @@ const types = {
     iconColor: '#2e2e2e',
     tagColor: 'grey',
     emphaColor: '#5C8EFE',
+    boxShadowPrimary: '0 0 0 2px #5C8EFE'
   }
 }
 

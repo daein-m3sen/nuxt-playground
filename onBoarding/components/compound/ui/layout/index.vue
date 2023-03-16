@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CHeader class="header" />
+    <CHeader class="header" @change:theme="emit('change:theme')" />
     <main class="main">
       <slot v-if="$slots.default" />
     </main>
@@ -11,6 +11,8 @@
 <script setup>
 import CHeader from './header.vue'
 import CFooter from './footer.vue'
+
+const emit = defineEmits(['change:theme'])
 </script>
 
 <style lang="scss" scoped>

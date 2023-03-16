@@ -1,6 +1,6 @@
 <template>
   <div class="question-page">
-    <CompoundUiLayout class="layout">
+    <CompoundUiLayout class="layout" @change:theme="emit('change:theme')">
       <template #default>
         <BasicUiWrapper-single_line class="main">
           <template #center>
@@ -27,7 +27,7 @@
               </CompoundUi-keyword_search_box>
             </section>
             <section class="tag-section">
-              <CompoundData-tags class="tag-area">
+              <CompoundData-tags>
                 <template #tags="{ result }">
                   <CompoundUiList-tag_list class="tags" :tags="result" @update:result="f_updateData" />
                 </template>
@@ -35,13 +35,13 @@
             </section>
             <section class="content-section">
               <div style="text-align: left">
-                총 <strong style="color: rgb(128, 128, 128, 1);">{{ _count }}</strong>건
+                총 <strong class="empha">{{ _count }}</strong>건
               </div>
               <hr>
               <CompoundUiList-question_list :questions="_datas" />
               <BasicUi-border_button v-if="_count > (_currPage + 1) * _pageSize" class="more-btn"
                 :content="`더보기 ${_count ? (_currPage + 1) * _pageSize : 0} / ${_count}`" @click="f_onClickMore" />
-              <BasicUi-icon_button v-else>
+              <BasicUi-icon_button v-else @click="f_scrollTop">
                 <template #icon>
                   <div class="mdi upper-btn mdi-arrow-up-drop-circle-outline">
                     <span class="btn-title">위로</span>
@@ -66,18 +66,12 @@ const _router = useRouter()
 const _count = ref(0)
 const _keyword = ref(null)
 const _datas = ref([])
+const _upperBtn = ref(null)
+
+const emit = defineEmits(['change:theme'])
 
 let _currPage = 0
 let _pageSize = 3
-
-onMounted(() => {
-  window.addEventListener('scroll', f_scrollTopEvt)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', f_scrollTopEvt, false)
-})
-
 
 const f_loadQuestion = async () => {
   const { data: questions } = await useFetch(`/api/questions?page=${_currPage + 1}&size=${_pageSize}`)
@@ -107,8 +101,10 @@ const f_onClickMore = async () => {
   await f_loadQuestion()
 }
 
-const f_scrollTopEvt = () => {
-  window.clientTop({ top: 0, behavior: "smooth" })
+const f_scrollTop = () => {
+  if (process.client) {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
 }
 
 await f_loadQuestionCount()
@@ -171,6 +167,10 @@ await f_loadQuestion()
           display: block;
           font-size: 14px;
         }
+      }
+
+      & .empha {
+        color: v-bind('c__themes.theme.emphaColor')
       }
     }
   }

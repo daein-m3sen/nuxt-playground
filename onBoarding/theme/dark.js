@@ -19,6 +19,7 @@ const types = {
     iconColor: 'rgba(227, 229, 231, 1)', // #E3E5E7
     emphaColor: 'rgba(227, 229, 231, 0.8)', // #5C8EFE
     invertPercentage: 'invert(50%)',
+    boxShadowPrimary: '0 0 0 2px rgba(227, 229, 231, 1)' 
   }
 }
 

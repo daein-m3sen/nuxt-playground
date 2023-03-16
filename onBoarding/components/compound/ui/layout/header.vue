@@ -1,16 +1,17 @@
 <template>
   <header class="default-header">
     <BasicUi_logo class="logo" @click="$router.push('/')" />
+    {{ c__current_theme }}
     <BasicUi_icon-button class="item">
       <template v-slot:icon>
-        <div @click="f__changeMode" style="font-size: 24px" class="mdi mdi-theme-light-dark" />
+        <div @click="emit('change:theme')" style="font-size: 24px" class="mdi mdi-theme-light-dark" />
       </template>
     </BasicUi_icon-button>
   </header>
 </template>
 
 <script setup>
-//
+const emit = defineEmits(['change:theme'])
 </script>
 
 <style lang="scss" scoped>

@@ -69,7 +69,8 @@ watch(p_keyword, (newVal) => {
   }
 
   &:focus-within {
-    box-shadow: 0 0 0 2px #5C8EFE inset;
+    box-shadow: v-bind('c__themes.theme.boxShadowPrimary');
+    border: 1px solid none;
   }
 }
 </style>
