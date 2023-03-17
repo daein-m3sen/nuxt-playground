@@ -41,7 +41,7 @@
               <CompoundUiList-question_list :questions="_datas" />
               <BasicUi-border_button v-if="_count > (_currPage + 1) * _pageSize" class="more-btn"
                 :content="`더보기 ${_count ? (_currPage + 1) * _pageSize : 0} / ${_count}`" @click="f_onClickMore" />
-              <BasicUi-icon_button v-else @click="f_scrollTop">
+              <BasicUi-icon_button v-else-if="c_isScroll" @click="f_scrollTop">
                 <template #icon>
                   <div class="mdi upper-btn mdi-arrow-up-drop-circle-outline">
                     <span class="btn-title">위로</span>
@@ -66,7 +66,9 @@ const _router = useRouter()
 const _count = ref(0)
 const _keyword = ref(null)
 const _datas = ref([])
-const _upperBtn = ref(null)
+const c_isScroll = computed(() => {
+  return window.scrollY > 0
+})
 
 const emit = defineEmits(['change:theme'])
 
@@ -102,9 +104,7 @@ const f_onClickMore = async () => {
 }
 
 const f_scrollTop = () => {
-  if (process.client) {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
+  window.scrollTo({ top: 0, behavior: "smooth" })
 }
 
 await f_loadQuestionCount()

@@ -15,8 +15,6 @@
 
 <script setup>
 const router = useRouter()
-
-const emit = defineEmits(['change:theme'])
 </script>
 
 <style lang="scss">

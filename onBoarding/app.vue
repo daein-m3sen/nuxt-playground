@@ -1,21 +1,25 @@
 <template>
   <div class="app">
-    <NuxtPage />
+    <NuxtPage :theme="c_theme" />
   </div>
 </template>
 
 <script setup>
-import { useScreenStore } from '@/stores'
+import { useThemeManageStore } from "./stores";
+const useThemeManage = useThemeManageStore()
 
-const screenStore = useScreenStore()
-const isLoaded = ref(false)
-
-onBeforeMount(() => {
-  screenStore.initScreen()
+const c_theme = computed(() => {
+  return useThemeManage.getTheme()
 })
 
-onBeforeUnmount(() => {
-  screenStore.removeScreenEvt()
+onMounted(() => {
+  if (process.client) {
+    let theme = localStorage.getItem('theme')
+
+    if (theme) {
+      useThemeManage.setThemeByVal(theme)
+    }
+  }
 })
 </script>
 
@@ -24,8 +28,8 @@ html,
 body,
 #__nuxt {
   /* overflow: auto; */
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 }
 
 .app {

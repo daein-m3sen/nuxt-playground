@@ -1,23 +1,39 @@
 import { defineStore } from 'pinia'
 
-export const useScreenStore = defineStore('screen', {
+export const useSiteCustomStore = defineStore('site', {
   state: () => {
     return { 
-      isMobile: false,
+      theme: null,
     }
   },
   actions: {
-    resizeEvt() {
-      const currWidth = window.matchMedia('(min-width: 425px)')
-      this.isMobile = currWidth.matches
+    initSetting() {
+      this.theme = ref('light')
     },
-    initScreen() {
-      this.isMobile = window.matchMedia('(min-width: 425px)').matches
+    getTheme() {
+      return this.theme
+    },
+  }
+})
 
-      window.addEventListener('resize', this.resizeEvt)
-    },
-    removeScreenEvt() {
-      window.removeEventListener('resize', this.resizeEvt, false)
+export const useThemeManageStore = defineStore('theme', {
+  state: () => {
+    return {
+      theme: 'light',
     }
+  },
+  actions: {
+    initSetting() {
+      this.theme = ref('light')
+    },
+    getTheme() {
+      return this.theme
+    },
+    setTheme() {
+      this.theme === 'light' ? this.theme = 'dark' : this.theme = 'light'
+    },
+    setThemeByVal(theme) {
+      this.theme = theme
+    },
   }
 })

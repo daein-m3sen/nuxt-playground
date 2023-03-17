@@ -1,7 +1,7 @@
 <template>
   <footer class="default-footer">
-    <BasicUiWrapper-main>
-      <template #main>
+    <BasicUiWrapper-footer>
+      <template #footer>
         <BasicUi-logo class="logo" />
         <div class="divide-line"></div>
         <div class="description">
@@ -17,7 +17,7 @@
           </div>
         </div>
       </template>
-    </BasicUiWrapper-main>
+    </BasicUiWrapper-footer>
   </footer>
 </template>
 
@@ -27,7 +27,6 @@
 
 <style lang="scss" scoped>
 .default-footer {
-  display: block;
   border-top: 1px solid lightgrey;
   color: v-bind('c__themes.defaultFontColor');
   background-color: v-bind('c__themes.defaultBackground');

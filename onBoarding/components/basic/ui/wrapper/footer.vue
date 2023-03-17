@@ -1,14 +1,8 @@
 <template>
-  <div class="main-wrapper" ref="r_footer">
-    <div class="main">
-      <slot name="main" />
+  <div class="footer-wrapper" ref="r_footer">
+    <div class="footer">
+      <slot name="footer" />
     </div>
-
-    <!-- <slot v-if="!_isWideScreen" class="single" name="main" />
-    <slot v-else class="double" name="main">
-      <slot name="left"></slot>
-      <slot name="right"></slot>
-    </slot> -->
   </div>
 </template>
 
@@ -16,8 +10,8 @@
 </script>
 
 <style lang="scss">
-.main-wrapper {
-  & .main {
+.footer-wrapper {
+  & .footer {
     @media (max-width: 425px) {
       display: block;
     }

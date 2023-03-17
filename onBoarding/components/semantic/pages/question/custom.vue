@@ -27,6 +27,8 @@ const router = useRouter()
     flex: 1 0 auto;
     padding: 40px;
 
+    color: v-bind('c__themes.defaultFontColor');
+
     & .qna-btn {
       padding: 5px 20px;
       border: 1px solid lightgrey;

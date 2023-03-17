@@ -1,3 +1,5 @@
 <template>
-  <SemanticPages_question-custom />
+  <BasicUiWrapper-theme>
+    <SemanticPages_question-custom />
+  </BasicUiWrapper-theme>
 </template>
