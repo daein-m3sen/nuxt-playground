@@ -1,0 +1,37 @@
+@keyframes horizontalMove {
+  0% {
+    left: 0%;
+  }
+
+  50% {
+    left: calc(100% - 20px);
+  }
+
+  100% {
+    left: 0%;
+  }
+}
+
+@keyframes beat {
+  0% {
+    transform: scale(1.0);
+  }
+
+  50% {
+    transform: scale(0.3);
+  }
+
+  100% {
+    transform: scale(1.0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -3,10 +3,15 @@
     <CompoundUiLayout @change:theme="emit('change:theme')">
       <template #default>
         <div class="main">
-          <div>
-            <span>메인페이지입니다.</span>
-          </div>
-          <button class="qna-btn" @click="router.push('/question')">Q&A</button>
+          <section class="slogan-section">
+            <strong><span class="slogan-1">SENS</span>ING</strong> <br>
+            <strong><span class="slogan-2">THINK</span>ING</strong> <br>
+            <strong><span class="slogan-3">CREAT</span>ING</strong> <br>
+          </section>
+          <br><br>
+          <button class="qna-btn" @click="router.push('/question')">
+            <strong>Q&A</strong>
+          </button>
         </div>
       </template>
     </CompoundUiLayout>
@@ -33,6 +38,25 @@ const router = useRouter()
       padding: 5px 20px;
       border: 1px solid lightgrey;
       border-radius: 0.25rem;
+    }
+
+    & .slogan-section {
+      font-size: 50px;
+      letter-spacing: 0.25rem;
+      // text-shadow: -0.1px 0 #000, 0 0.1px #000, 0.1px 0 #000, 0 -0.1px #000;
+      color: v-bind('c__themes.theme.symbolDefault');
+
+      & .slogan-1 {
+        color: v-bind('c__themes.theme.symbolGreen');
+      }
+
+      & .slogan-2 {
+        color: v-bind('c__themes.theme.symbolBlue');
+      }
+
+      & .slogan-3 {
+        color: v-bind('c__themes.theme.symbolYellow');
+      }
     }
   }
 }

@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
+    "serve": "vite --port 3003",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",

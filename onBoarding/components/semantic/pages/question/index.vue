@@ -78,6 +78,8 @@ let _pageSize = 3
 const f_loadQuestion = async () => {
   const { data: questions } = await useFetch(`/api/questions?page=${_currPage + 1}&size=${_pageSize}`)
 
+  console.log(questions.value)
+
   _datas.value = [..._datas.value, ...questions.value].slice(0, _count.value)
 }
 

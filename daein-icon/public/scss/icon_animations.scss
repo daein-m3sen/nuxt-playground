@@ -1,0 +1,136 @@
+// Beat (펌핑 효과)
+// Fade (페이드 효과)
+// Beat-Fade (펌핑 + 페이드)
+// Bounce (점프 효과)
+// Flip (뒤집기 효과)
+// Shake (흔들기 효과)
+// Spin (회전 효과)
+// Draw (그리기 효과)
+
+@keyframes beat {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.8);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes beat-fade {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0%);
+  }
+
+  20% {
+    transform: scaleY(1.1) translateY(-15%);
+  }
+
+  50% {
+    transform: translateY(0%);
+  }
+
+  80% {
+    transform: scaleY(1.05) translateY(-7%);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+
+  50% {
+    transform: rotateY(360deg);
+  }
+
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(-10deg);
+  }
+
+  50% {
+    transform: rotate(10deg);
+  }
+
+  100% {
+    transform: rotate(-10deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+@keyframes gradation {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 100% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes loading-icon {
+  0% {}
+
+  100% {
+    background-position: -100% -100%;
+  }
+}
