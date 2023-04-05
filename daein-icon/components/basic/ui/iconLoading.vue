@@ -1,12 +1,13 @@
 <template>
   <div class="icon-loading">
     <div class="icon-wrapper">
-      <!-- <BasicUi-icon class="icon-mask" :state="c_iconloadingState?.icon" :percentage="0" /> -->
-      <BasicUi-icon class="icon" :state="c_iconLoadingState.icon" :percentage="50" />
+      <BasicUi-icon class="icon" :state="c_iconLoadingState?.icon" />
     </div>
-    <div class="loading-wrapper">
-      <BasicUi-loading class="loading" :state="c_iconLoadingState.progress" />
-    </div>
+    <Transition name="loading-wrapper">
+      <div class="loading-wrapper" v-if="c_isShow">
+        <BasicUi-loading class="loading" :type="p_type" :state="c_iconLoadingState?.progress" />
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -14,9 +15,13 @@
 import { iconLoadingStates, iconLoadingState } from '../types/icon-loading-state';
 
 const $props = defineProps({
+  type: {
+    type: String,
+    required: true,
+  },
   state: {
     type: String,
-    default: 'DISABLED',
+    default: 'NONE',
   },
   percentage: {
     type: Number,
@@ -24,50 +29,59 @@ const $props = defineProps({
   }
 })
 
-const { state: p_state, percentage: p_percentage } = toRefs($props)
+const { state: p_state, percentage: p_percentage, type: p_type } = toRefs($props)
+const _iconHeight = ref('100%')
 
+const c_isShow = computed(() => {
+  return p_type.value !== 'NONE'
+})
 const c_polygonCalc = computed(() => {
   return (100 - p_percentage.value) + '%'
 })
-
-const c_iconLoadingState = computed(() => {
+const c_iconLoadingState: iconLoadingState = computed(() => {
   return iconLoadingStates[p_state.value]
+})
+
+watch(p_type, () => {
+  p_type.value === 'NONE' ? _iconHeight.value = '100%' : _iconHeight.value = '75%'
 })
 </script>
 
 <style lang="scss" scoped>
+.loading-wrapper-enter-active,
+.loading-wrapper-leave-active {
+  transition: all .5s linear;
+  transition-delay: .25s;
+}
+
+.loading-wrapper-enter-from,
+.loading-wrapper-leave-to {
+  scale: 0;
+}
+
 .icon-loading {
   & .icon-wrapper {
     width: 100%;
-    height: calc(100% / 4 * 3);
-    padding: 5px;
-    // position: relative;
+    height: v-bind(_iconHeight);
+    transition: height .5s ease-in-out;
 
     & .icon {
       width: 100%;
       height: 100%;
-      fill: lightcoral;
-      clip-path: polygon(0 v-bind(c_polygonCalc), 100% v-bind(c_polygonCalc), 100% 100%, 0% 100%);
+      // clip-path: polygon(0 v-bind(c_polygonCalc), 100% v-bind(c_polygonCalc), 100% 100%, 0% 100%);
     }
-
-    // & .icon-mask {
-    //   color: lightcoral;
-    //   opacity: 0.8;
-    //   width: calc(100% - 10px);
-    //   height: calc(100% - 10px);
-    //   position: absolute;
-    // }
   }
 
   & .loading-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: calc(100% / 4);
-    padding: 5px;
+    height: 25%;
 
     & .loading {
+      margin: 0 auto;
       height: 100%;
+    }
+
+    & .bar {
+      margin: 0 0;
     }
   }
 }

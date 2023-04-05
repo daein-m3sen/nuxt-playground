@@ -1,8 +1,8 @@
 <template>
-  <svg class="icon" ref="iconRef" :class='`${c_iconState} ${c_iconAnimation}`' width="16" height="16"
-    viewBox="0 96 960 960">
+  <svg class="icon" ref="iconRef" :class='`${c_iconState} ${c_iconAnimation}`' width="16" height="16" viewBox="0 0 24 24">
+    <path d="M0 0h24v24H0V0z" fill="none" />
     <path
-      d="M180 976q-24 0-42-18t-18-42V296q0-24 18-42t42-18h65v-60h65v60h340v-60h65v60h65q24 0 42 18t18 42v620q0 24-18 42t-42 18H180Zm0-60h600V486H180v430Zm0-490h600V296H180v130Zm0 0V296v130Z" />
+      d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
   </svg>
 </template>
 
@@ -17,7 +17,7 @@ const $props = defineProps({
   },
   state: {
     type: String,
-    default: 'ENABLE'
+    default: 'NONE'
   },
   animation: {
     type: String,
@@ -30,31 +30,31 @@ const $props = defineProps({
 })
 
 onMounted(async () => {
-  await loadIcon()
+  // await loadIcon()
 })
 
 const { name: p_name, state: p_state, animation: p_animation, percentage: p_percentage } = toRefs($props)
 const _icon = ref(null)
-const iconRef = ref(null)
+const $iconRef = ref(null)
 const c_iconLen = computed(() => {
   let iconLen = 0
 
-  if (iconRef.value?.hasChildNodes()) {
+  if ($iconRef.value?.hasChildNodes()) {
     iconLen = 0
-    Array.from(iconRef.value.childNodes).map((item, idx) => {
+    Array.from($iconRef.value.childNodes).map((item, idx) => {
       iconLen += item.getTotalLength()
     })
 
     console.log(parseInt(iconLen))
-  }
 
-  return parseInt(iconLen)
+  }
 })
 const c_polygonCalc = computed(() => {
   return (100 - p_percentage.value) + '%'
 })
 
 const ICON_STATE = {
+  'NONE': 'none',
   'DISABLED': 'disabled', // 비활성화
   'ENABLE': 'enable', // 활성화
   'COMPLETED': 'completed', // 일반상태
@@ -70,7 +70,7 @@ const ICON_ANIMATION = {
   'SHAKE': 'shake',
   'SPIN': 'spin',
   'DRAW': 'draw',
-  'NONE': null,
+  'NONE': 'normal',
 }
 const c_iconState = computed(() => {
   return ICON_STATE[p_state?.value]
@@ -91,7 +91,6 @@ const loadIcon = async () => {
 @import "@/public/scss/icon_animations.scss";
 
 .icon {
-  display: block;
   fill: #495057;
   height: 100%;
   width: 100%;
@@ -108,30 +107,12 @@ const loadIcon = async () => {
   animation: shake .25s ease-out infinite;
 }
 
-// .progress {
-//   background-image: linear-gradient(to bottom right, lightcoral, white);
-//   color: transparent;
-//   -webkit-background-clip: text;
-//   background-size: 200% 200%;
-//   animation: gradation 2s ease-in-out infinite;
-// }
-
 .progress {
-  // stroke-dasharray: v-bind(c_iconLen);
-  // stroke-dashoffset: v-bind(c_iconLen);
   animation: draw 3s ease-in-out infinite;
 }
 
 .not-ready {
   fill: #EBEAEA;
-}
-
-.gradation {
-  background-image: linear-gradient(to bottom right, lightgrey, white);
-  color: transparent;
-  -webkit-background-clip: text;
-  background-size: 200% 200%;
-  animation: gradation 10s ease-in-out infinite;
 }
 
 @keyframes draw {
@@ -144,6 +125,8 @@ const loadIcon = async () => {
     stroke-dashoffset: 0;
   }
 }
+
+.normal {}
 
 .beat {
   animation: beat 1s ease-in-out infinite;

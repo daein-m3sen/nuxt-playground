@@ -1,16 +1,20 @@
 <template>
-  <div class="app">
+  <div id="app">
     <NuxtPage />
   </div>
 </template>
 
 <style lang="scss">
-body {
-  padding: 0 40px;
+#app {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
 }
 
 button {
-  border: 1px solid lightgrey;
-  padding: 3px;
+  margin: 3px;
+  width: 100px;
+  height: 40px;
+  border: 1px solid black;
 }
 </style>

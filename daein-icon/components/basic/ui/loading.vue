@@ -12,13 +12,14 @@ const $props = defineProps({
   },
   state: {
     type: String,
-    default: 'PROGRESS',
+    default: 'NONE',
   },
 })
 
 const { state: p_state, type: p_type } = toRefs($props)
 
 const TYPE = {
+  'NONE': 'none',
   'CIRCLE': 'circle',
   'BAR': 'bar',
   'DOT': 'dot',
@@ -56,17 +57,19 @@ const c_progressType = computed(() => {
 }
 
 .loadingbar {
+  width: inherit;
+  height: inherit;
   min-width: 14px;
   min-height: 14px;
 }
 
 .circle {
   aspect-ratio: 1 / 1;
-  height: inherit;
+  height: min(100%, 100%);
   min-width: 14px;
   min-height: 14px;
   border-radius: 50%;
-  border: 3px solid lightgrey;
+  border: 3px solid lightcoral;
   border-top: 3px solid transparent;
   animation: spin 2s linear infinite;
 }
@@ -74,19 +77,18 @@ const c_progressType = computed(() => {
 .bar {
   position: relative;
   width: 20px;
-  height: inherit;
   min-width: 14px;
   min-height: 14px;
-  background-color: lightgrey;
+  background-color: lightcoral;
   animation: horizontalMove 2s infinite;
 }
 
 .dot {
   aspect-ratio: 1 / 1;
-  height: inherit;
+  height: min(100%, 100%);
   min-width: 14px;
   min-height: 14px;
-  background-color: lightgrey;
+  background-color: lightcoral;
   border-radius: 50%;
   animation: beat 2s infinite;
 }

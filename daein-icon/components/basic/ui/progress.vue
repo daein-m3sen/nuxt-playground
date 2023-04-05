@@ -16,13 +16,14 @@ const $props = defineProps({
   },
   percentage: {
     type: Number,
-    default: 80,
-  }
+    default: 0,
+  },
 })
 
 const { state: p_state, type: p_type, percentage: p_percentage } = toRefs($props)
 
 const TYPE = {
+  'NONE': 'none',
   'BAR': 'bar',
   'DOT': 'dot',
 }
@@ -42,6 +43,14 @@ const c_progressState = computed(() => {
 
 const c_progressType = computed(() => {
   return TYPE[p_type.value]
+})
+
+const c_progress_decimal = computed(() => {
+  return p_percentage.value / 100
+})
+
+const c_progress_percentage = computed(() => {
+  return p_percentage.value + '%'
 })
 </script>
 
@@ -63,20 +72,21 @@ const c_progressType = computed(() => {
 
 .bar {
   position: relative;
-  width: 20px;
   height: inherit;
   min-width: 14px;
   min-height: 14px;
-  background-color: lightgrey;
-  animation: horizontalMove 2s infinite;
+  background-color: lightcoral;
+  animation: horizontalMove 2s ease-in-out infinite;
+  clip-path: polygon(0 0, v-bind(c_progress_percentage) 0, v-bind(c_progress_percentage) 100%, 0% 100%);
 }
 
 .dot {
   aspect-ratio: 1 / 1;
   height: inherit;
+  width: inherit;
   min-width: 14px;
   min-height: 14px;
-  background-color: lightgrey;
+  background-color: lightcoral;
   border-radius: 50%;
   animation: dot 2s infinite;
 }
@@ -85,41 +95,27 @@ const c_progressType = computed(() => {
   display: none;
 }
 
-@keyframes horizontalMove {
-  0% {
-    left: 0%;
-  }
-
-  50% {
-    left: calc(100% - 14px);
-  }
-
-  100% {
-    left: 0%;
-  }
+.completed {
+  display: none;
 }
 
-@keyframes blink {
+@keyframes horizontalMove {
   0% {
-    transform: scale(1.0);
-  }
-
-  50% {
-    transform: scale(0.3);
+    clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
   }
 
   100% {
-    transform: scale(1.0);
+    clip-path: polygon(0 0, v-bind(c_progress_percentage) 0, v-bind(c_progress_percentage) 100%, 0% 100%);
   }
 }
 
 @keyframes dot {
   0% {
-    transform: scale(0.3 + v-bind(p_percentage * 0.7));
+    transform: scale(0);
   }
 
   100% {
-    transform: scale(1.0);
+    transform: scale(v-bind(c_progress_decimal));
   }
 }
 </style>

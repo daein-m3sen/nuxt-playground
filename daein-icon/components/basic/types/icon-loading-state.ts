@@ -5,7 +5,6 @@ enum iconLoading {
   'LOADING',
   'PROGRESS',
   'COMPLETED',
-  'ONSTATUS',
 }
 
 type iconLoadingType = {
@@ -14,22 +13,21 @@ type iconLoadingType = {
 }
 
 type iconLoadingState = {
+  NONE: iconLoadingType,
   DISABLED: iconLoadingType,
-  NOTREADY: iconLoadingType,
   ENABLE: iconLoadingType,
   LOADING: iconLoadingType,
   PROGRESS: iconLoadingType,
   COMPLETED: iconLoadingType,
-  ONSTATUS: iconLoadingType,
+}
+
+const NONE: iconLoadingType = {
+  icon: 'ENABLE',
+  progress: 'NONE',
 }
 
 const DISABLED: iconLoadingType = {
   icon: 'DISABLED',
-  progress: 'NONE',
-}
-
-const NOTREADY: iconLoadingType = {
-  icon: 'NOT_READY',
   progress: 'NONE',
 }
 
@@ -53,19 +51,13 @@ const COMPLETED: iconLoadingType = {
   progress: 'COMPLETED',
 }
 
-const ONSTATUS: iconLoadingType = {
-  icon: 'DISABLED',
-  progress: null,
-}
-
 const iconLoadingStates: iconLoadingState = {
+  NONE,
   DISABLED,
-  NOTREADY,
   ENABLE,
   LOADING,
   PROGRESS,
   COMPLETED,
-  ONSTATUS,
 }
 
 export {

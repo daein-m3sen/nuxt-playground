@@ -1,40 +1,18 @@
 <template>
-  <div class="icons">
+  <div class="icon-state">
     <button @click="$router.push('/')">home</button>
-    <br>
-    <h2>효과에 따른 아이콘</h2>
-    <br>
-
-    <div class="grid-layout">
-      <div v-for="(effect, idx) of ['BEAT', 'FADE', 'BEAT_FADE', 'BOUNCE', 'FLIP', 'SHAKE', 'SPIN', 'DRAW', 'NONE']"
-        :key="idx">
-        <div :class="`card-state-${idx + 1}`">
-          <BasicUi-card>
-            <template #default>
-              <BasicUi-icon class="icon" :animation="effect" />
-            </template>
-          </BasicUi-card>
-          <div>
-            상태값: {{ effect }}
-          </div>
-        </div>
-      </div>
-    </div>
     <br><br>
+    <h1>아이콘 상태</h1>
 
-    <br>
-    <h2>상태에 따른 아이콘</h2>
     <br>
     <div class="grid-layout">
       <div v-for="(state, idx) of ['DISABLED', 'ENABLE', 'COMPLETED', 'PROGRESS']" :key="idx">
         <div :class="`card-state-${idx + 1}`">
           <BasicUi-card>
-            <template #default>
-              <BasicUi-icon class="icon" :state="state" />
-            </template>
+            <BasicUi-icon class="icon" :state="state" />
           </BasicUi-card>
-          <div>
-            상태값: {{ state }}
+          <div style="margin: 5px 0;font-weight: 600;">
+            {{ state }}
           </div>
         </div>
       </div>
@@ -47,13 +25,10 @@
           <BasicUi-icon :name="'note-multiple-outline'" :state="_state" />
         </template>
       </BasicUi-card>
-      <div>
-        상태값: ({{ _state }})
+      <div style="margin: 5px 0;font-weight: 600;font-size: 30px;">
+        {{ _state }}
       </div>
     </div>
-
-    <br><br>
-
     <br>
     <button v-for="(state, idx) of ['DISABLED', 'ENABLE', 'COMPLETED', 'PROGRESS']" :key="idx" @click="onClickBtn(state)">
       {{ state }}
@@ -64,7 +39,6 @@
 </template>
 
 <script setup>
-const $router = useRouter()
 const _state = ref('ENABLE')
 
 const onClickBtn = (state) => {
@@ -73,10 +47,6 @@ const onClickBtn = (state) => {
 </script>
 
 <style lang="scss" scoped>
-button {
-  margin: 0 3px;
-}
-
 .grid-layout {
   display: grid;
   column-gap: 20px;

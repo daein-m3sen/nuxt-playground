@@ -1,19 +1,20 @@
 <template>
   <div class="loading">
     <button @click="$router.push('/')">home</button>
-    <br>
-    <h2>타입 따른 로딩바</h2>
+    <br><br>
+    <h1>로딩바</h1>
+
     <br>
     <div class="grid-layout">
       <div v-for="(type, idx) of ['CIRCLE', 'BAR', 'DOT']" :key="idx">
-        <div :class="`card-type-${idx + 1}`">
+        <div :class="`card card-type-${idx + 1}`">
           <BasicUi-card>
             <template #default>
-              <BasicUi-loading :type="type" />
+              <BasicUi-loading :state="'PROGRESS'" :type="type" />
             </template>
           </BasicUi-card>
-          <div>
-            상태값: {{ type }}
+          <div style="margin: 5px 0;font-weight: 600;">
+            {{ type }}
           </div>
         </div>
       </div>
@@ -23,6 +24,7 @@
 
 <script setup>
 const $router = useRouter()
+const _type = ref('PROGRESS')
 </script>
 
 <style lang="scss" scoped>
