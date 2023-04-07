@@ -51,6 +51,10 @@ watch(p_type, () => {
 .loading-wrapper-enter-active,
 .loading-wrapper-leave-active {
   transition: all .5s linear;
+
+}
+
+.loading-wrapper-enter-active {
   transition-delay: .25s;
 }
 

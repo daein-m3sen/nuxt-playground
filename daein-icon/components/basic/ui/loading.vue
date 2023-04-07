@@ -71,7 +71,7 @@ const c_progressType = computed(() => {
   border-radius: 50%;
   border: 3px solid lightcoral;
   border-top: 3px solid transparent;
-  animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite forwards;
 }
 
 .bar {
@@ -80,7 +80,7 @@ const c_progressType = computed(() => {
   min-width: 14px;
   min-height: 14px;
   background-color: lightcoral;
-  animation: horizontalMove 2s infinite;
+  animation: horizontalMove 2s infinite forwards;
 }
 
 .dot {
@@ -90,7 +90,7 @@ const c_progressType = computed(() => {
   min-height: 14px;
   background-color: lightcoral;
   border-radius: 50%;
-  animation: beat 2s infinite;
+  animation: beat 2s infinite forwards;
 }
 
 .none {

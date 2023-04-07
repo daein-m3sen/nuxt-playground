@@ -6,7 +6,8 @@
 
     <br>
     <div class="grid-layout">
-      <div v-for="(effect, idx) of ['BEAT', 'FADE', 'BEAT_FADE', 'BOUNCE', 'FLIP', 'SHAKE', 'SPIN', 'DRAW', 'NONE']"
+      <div
+        v-for="(effect, idx) of ['BEAT', 'FADE', 'BEAT_FADE', 'BOUNCE', 'FLIP', ['BEAT', 'FADE'], 'SHAKE', 'SPIN', 'DRAW', 'NONE']"
         :key="idx">
         <div :class="`card-state-${idx + 1}`">
           <BasicUi-card>

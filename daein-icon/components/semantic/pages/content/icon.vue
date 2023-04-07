@@ -6,15 +6,15 @@
 
     <br>
     <div class="grid-layout">
-      <div v-for="(number, idx) of Array(30).fill().map((v, i) => i + 1)" :key="idx">
-        <div :class="`card-state-${idx + 1}`">
+      <div v-for="(icon, name) in icons" :key="name">
+        <div :class="`card-state-${name}`">
           <BasicUi-card>
             <template #default>
-              <BasicUi-icon class="icon" :animation="effect" />
+              <BasicUi-icon class="icon" :name="icon.name" :path="icon.path" />
             </template>
           </BasicUi-card>
           <div style="margin: 5px 0;font-weight: 600;">
-            {{ number }}
+            {{ icon.name }}
           </div>
         </div>
       </div>
@@ -26,7 +26,14 @@
 </template>
 
 <script setup>
+import Utils from '@/utils'
+
 const $router = useRouter()
+const icons = ref([])
+
+onMounted(() => {
+  icons.value = Utils.getIcons()
+})
 </script>
 
 <style lang="scss" scoped>

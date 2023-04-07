@@ -52,6 +52,10 @@ watch(p_type, () => {
 .progress-wrapper-enter-active,
 .progress-wrapper-leave-active {
   transition: all .5s linear;
+
+}
+
+.progress-wrapper-enter-active {
   transition-delay: .25s;
 }
 
@@ -65,6 +69,7 @@ watch(p_type, () => {
     width: 100%;
     height: v-bind(_iconHeight);
     transition: height .5s ease-in-out;
+    transition-delay: .25s;
 
     & .icon {
       width: 100%;
