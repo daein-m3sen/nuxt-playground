@@ -1,9 +1,11 @@
 <template>
-  <img class="icon" :class='`${c_iconState} ${c_iconAnimation}`' ref="iconRef" :src="p_path" alt="">
-  <!-- <svg class="icon" ref="iconRef" :class='`${c_iconState} ${c_iconAnimation}`' width="16" height="16" viewBox="0 0 24 24">
-    <path
-      d="M11.493 4.038a3.708 3.708 0 0 0-1.516.624c-.305.216-.795.736-.97 1.03a3.416 3.416 0 0 0-.113 3.368c.091.176.245.419.342.54l.212.266c.024.032-.057.117-.257.267a6.8 6.8 0 0 0-1.22 1.272 5.458 5.458 0 0 0-.751 4.615 5.512 5.512 0 0 0 3.76 3.76c1.508.436 3.691.192 5.541-.62.428-.188.959-.472.959-.513 0-.034-.913-1.613-.961-1.663-.02-.021-.223.057-.487.187-1.047.517-2.36.829-3.483.829a3.55 3.55 0 0 1-2.069-.641c-.254-.173-.686-.612-.875-.889-.611-.898-.765-2.136-.391-3.164a3.575 3.575 0 0 1 1.923-2.022c.156-.065 1.485-.441 2.954-.835 1.469-.395 2.679-.725 2.688-.735.018-.018-.475-1.863-.507-1.895-.011-.011-1.017.251-2.236.582-2.116.576-2.224.601-2.396.558-.417-.104-.77-.392-.987-.805-.104-.197-.113-.249-.113-.654 0-.424.005-.449.136-.69.165-.304.414-.542.717-.683.303-.141.834-.148 1.154-.016l.207.086.483-.837c.266-.46.483-.852.483-.872 0-.056-.535-.289-.854-.373-.325-.086-1.062-.127-1.373-.077" />
-  </svg> -->
+  <BasicWrapper-animation :effects="c_iconAnimation">
+    <!-- <img class="icon" :class='`${c_iconState} ${c_iconAnimation}`' ref="iconRef" :src="p_path" alt=""> -->
+    <svg class="icon" ref="iconRef" :class='`${c_iconState}`' width="16" height="16" viewBox="0 0 24 24">
+      <path
+        d="M11.493 4.038a3.708 3.708 0 0 0-1.516.624c-.305.216-.795.736-.97 1.03a3.416 3.416 0 0 0-.113 3.368c.091.176.245.419.342.54l.212.266c.024.032-.057.117-.257.267a6.8 6.8 0 0 0-1.22 1.272 5.458 5.458 0 0 0-.751 4.615 5.512 5.512 0 0 0 3.76 3.76c1.508.436 3.691.192 5.541-.62.428-.188.959-.472.959-.513 0-.034-.913-1.613-.961-1.663-.02-.021-.223.057-.487.187-1.047.517-2.36.829-3.483.829a3.55 3.55 0 0 1-2.069-.641c-.254-.173-.686-.612-.875-.889-.611-.898-.765-2.136-.391-3.164a3.575 3.575 0 0 1 1.923-2.022c.156-.065 1.485-.441 2.954-.835 1.469-.395 2.679-.725 2.688-.735.018-.018-.475-1.863-.507-1.895-.011-.011-1.017.251-2.236.582-2.116.576-2.224.601-2.396.558-.417-.104-.77-.392-.987-.805-.104-.197-.113-.249-.113-.654 0-.424.005-.449.136-.69.165-.304.414-.542.717-.683.303-.141.834-.148 1.154-.016l.207.086.483-.837c.266-.46.483-.852.483-.872 0-.056-.535-.289-.854-.373-.325-.086-1.062-.127-1.373-.077" />
+    </svg>
+  </BasicWrapper-animation>
 </template>
 
 <script setup>
@@ -79,15 +81,8 @@ const c_iconState = computed(() => {
 const c_iconAnimation = computed(() => {
   const animations = []
 
-  if (p_animation.value.constructor === Array) {
-    p_animation.value.map((animation, idx) => {
-      animations.push(ICON_ANIMATION[animation])
-    })
-
-    return animations.join(' ')
-  }
-
-  return ICON_ANIMATION[p_animation?.value]
+  if (p_animation.value.constructor === Array) return p_animation.value.map(animation => ICON_ANIMATION[animation])
+  return [ICON_ANIMATION[p_animation?.value]]
 })
 
 // const loadIcon = async () => {
@@ -112,8 +107,7 @@ const setAnimation = () => {
 @import "@/public/scss/icon_animations.scss";
 
 .icon {
-  background-color: black;
-  ;
+  // background-color: black;
   fill: #495057;
   height: 100%;
   width: 100%;
@@ -146,34 +140,6 @@ const setAnimation = () => {
 }
 
 .normal {}
-
-.beat {
-  animation: beat 1s ease-in-out infinite;
-}
-
-.fade {
-  animation: fade 2s ease-in-out infinite;
-}
-
-.beat-fade {
-  animation: beat-fade 1s ease-in-out infinite;
-}
-
-.bounce {
-  animation: bounce 1s ease-in-out infinite;
-}
-
-.flip {
-  animation: flip 2s ease-in-out infinite;
-}
-
-.shake {
-  animation: shake .25s ease-in-out infinite;
-}
-
-.spin {
-  animation: spin 2s linear infinite;
-}
 
 .draw {
   stroke-dasharray: v-bind(c_iconLen);
