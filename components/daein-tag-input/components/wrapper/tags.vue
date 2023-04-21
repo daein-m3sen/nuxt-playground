@@ -14,14 +14,12 @@
 
 <style lang="scss">
 .wrapper-tags {
-  padding: 5px;
-
   & .input {
-    padding: 5px;
+    padding: 10px;
   }
 
   & .tags {
-    padding: 5px;
+    padding: 10px;
   }
 }
 </style>

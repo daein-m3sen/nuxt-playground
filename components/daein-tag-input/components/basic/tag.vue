@@ -1,6 +1,6 @@
 <template>
   <div class="tag" :class="`color-${p_color ? p_color : bgColor}`">
-    <div class="tag">{{ p_tag }}</div>
+    {{ p_tag }}
     <div v-if="p_icon" class="icon">
       <embed :src="`/assets/icons/${p_icon}.svg`">
     </div>
@@ -22,20 +22,24 @@ const $props = defineProps({
   icon: {
     type: String,
     default: null,
-  }
+  },
+  state: {
+    type: String,
+    default: null,
+  },
 })
 
-const { tag: p_tag, color: p_color, icon: p_icon } = toRefs($props)
+const { tag: p_tag, color: p_color, icon: p_icon, state: p_state } = toRefs($props)
 const bgColor = ref(null)
 
-const setRandomColor = () => {
+const f_setRandomColor = () => {
   if (p_color.value) return
 
   bgColor.value = parseInt((Math.random() * 10) + 1)
 }
 
 onMounted(() => {
-  setRandomColor()
+  f_setRandomColor()
 })
 </script>
 
@@ -43,11 +47,15 @@ onMounted(() => {
 .tag {
   text-align: center;
   display: inline-flex;
-  padding: 1px 6px;
+  padding: 6px;
   margin: 3px;
   white-space: nowrap;
   text-overflow: ellipsis;
   border-radius: 3px;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   & .icon {
     margin: 0 2px;

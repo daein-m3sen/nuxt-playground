@@ -1,6 +1,7 @@
 <template>
   <WrapperContainer-md_container>
     <br><br><br><br><br>
+
     <div>
       <h1>Wrapper</h1> <button @click="_isShows[0] = !_isShows[0]">{{ _isShows[0] ? '접기' : '펼치기' }}</button>
 
@@ -94,17 +95,45 @@
 
       <div v-if="_isShows[3]" class="scaffold">
         <div>
-          <h2>Compound tagInputVerti (width: 70%)</h2>
+          <h2>Tag input vertical example (width: 70%)</h2>
 
-          <Compound-tag_input_verti #="{ submit }" class="card" style="width: 70%;" :globalTags="_globalTags"
-            :icon="'close'" :tags="_tags" @update:tags="loadData" />
+          <Compound-tag_input_verti class="card" style="width: 70%;" :globalTags="_globalTags" :icon="'close'"
+            :tags="_tags" @update:tags="f_loadData" />
         </div>
-        <br><br>
-        <div>
-          <h2>Compound tagInputHoriz (width: 70%)</h2>
 
-          <Compound-tag_input_horiz #="{ submit }" class="card" style="width: 70%;" :globalTags="_globalTags"
-            :icon="'close'" :tags="_tags" @update:tags="loadData" />
+        <br><br>
+
+        <div>
+          <h2>Tag input horizontal example (width: 70%)</h2>
+
+          <Compound-tag_input_horiz class="card" style="width: 70%;" :globalTags="_globalTags" :icon="'close'"
+            :tags="_tags" @update:tags="f_loadData" />
+        </div>
+
+        <br><br>
+
+        <div>
+          <h2>Floating layout example (height, width: 500px)</h2>
+
+          <div class="grid-layout">
+            <div class="item" v-for="(item, idx) of [1, 2, 3, 4, 5, 6, 7, 8, 9]" :key="idx">
+              <Wrapper-floating @click.stop="f_onClickGrid(idx)"
+                :style="`${_currItem === idx ? 'pointer-events: none' : 'pointer-events: auto'}`">
+                <template #default>
+                  <Wrapper-tags class="card" style="display: block;width: 100%;height: 100%;">
+                    <template #tags>
+                      <Basic-tag v-for="(item, idx) of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" :key="idx" :tag="item.toString()"
+                        :color="item.toString()" />
+                    </template>
+                  </Wrapper-tags>
+                </template>
+                <template #floatItem="{ isShow }" v-if="_isFloat && _currItem === idx">
+                  <Compound-tag_input_verti #="{ submit }" class="card" :globalTags="_globalTags" :icon="'close'"
+                    :tags="_tags" @update:tags="f_loadData" />
+                </template>
+              </Wrapper-floating>
+            </div>
+          </div>
         </div>
       </div>
       <hr>
@@ -116,16 +145,36 @@
 
 <script setup>
 const _isShows = ref([false, false, false, true])
+const _isFloat = ref(false)
+const _currItem = ref(null)
 const _globalTags = ref([])
 const _tags = ref([])
 
-const loadData = () => {
+const f_loadData = () => {
   _globalTags.value = JSON.parse(localStorage.getItem('global')) || []
   _tags.value = JSON.parse(localStorage.getItem('tags')) || []
 }
 
+const f_onClickGrid = (idx) => {
+  _isFloat.value = !_isFloat.value
+  _currItem.value = idx
+}
+
+const f_tagExamGen = (n = 10) => {
+  const tags = []
+
+  for (let i = 0; i < n; i++) {
+    tags.push({
+      tag: (Math.ceil(Math.random() * 99)).toString(),
+      color: (Math.ceil(Math.random() * 10)).toString(),
+    })
+  }
+
+  return tags
+}
+
 onMounted(() => {
-  loadData()
+  f_loadData()
 })
 </script>
 
@@ -140,6 +189,37 @@ h1 {
 
 .scaffold {
   animation: .5s scaffold linear;
+}
+
+.overlay-float {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.grid-layout {
+  display: grid;
+  border: 1px solid lightgrey;
+  width: 500px;
+  height: 500px;
+  grid-column: 3;
+  grid-template-columns: repeat(3, 1fr);
+
+  & .item {
+    // overflow: auto;
+    max-height: 100%;
+    max-width: 100%;
+    border-right: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+
+    &:hover {
+      cursor: pointer;
+      background-color: lightgrey;
+    }
+  }
 }
 
 @keyframes scaffold {

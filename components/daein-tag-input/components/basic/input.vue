@@ -1,7 +1,7 @@
 <template>
   <div class="input">
-    <input type="text" :placeholder="p_placeholder" @input.stop="onSearch" :value="_keyword"
-      @keydown.enter.stop="onEnter">
+    <input ref="input" type="text" :placeholder="p_placeholder" @input.stop="f_onSearch" :value="_keyword"
+      @keypress.enter.stop="f_onEnter">
     <slot />
   </div>
 </template>
@@ -25,13 +25,14 @@ const emit = defineEmits([
 
 const { keyword: p_keyword, placeholder: p_placeholder } = toRefs($props)
 const _keyword = ref(null)
+const input = ref(null)
 
-const onSearch = (evt) => {
+const f_onSearch = (evt) => {
   _keyword.value = evt.target.value
   emit('select:related', _keyword)
 }
 
-const onEnter = (evt) => {
+const f_onEnter = (evt) => {
   if (!_keyword.value) return
 
   emit('update:keyword', {

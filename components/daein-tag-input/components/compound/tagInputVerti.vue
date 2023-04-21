@@ -3,39 +3,39 @@
     <Wrapper-tags class="top">
       <template #tags v-if="p_tags.length">
         <Basic-tag v-for="(item, idx) of p_tags" :key="idx" :tag="item.tag" :color="item.color" :icon="p_icon"
-          @click.stop="tagDelete(item.tag)" />
+          @click.stop="f_tagDelete(item.tag)" />
       </template>
       <template #tags v-else>
-        <div>등록된 태그가 없습니다.</div>
+        <div class="empty">등록된 태그가 없습니다.</div>
       </template>
     </Wrapper-tags>
     <Wrapper-tags class="bottom">
       <template #input>
-        <Basic-input :placeholder="'태그 선택 또는 만들기'" @select:related="(keyword) => filter(keyword)"
-          @update:keyword="(keyword) => tagAdd(keyword)" />
+        <Basic-input :placeholder="'태그 선택 또는 만들기'" @select:related="(keyword) => f_filter(keyword)"
+          @update:keyword="(keyword) => f_tagAdd(keyword)" />
       </template>
       <template #tags>
         <Compound-tag_list :tag="p_globalTags" v-if="!_newTag">
           <template #default>
-            <div class="tag-list-inner" v-for="(item, idx) of p_globalTags" :key="idx" @click.stop="tagAdd(item)">
+            <div class="tag-list-inner" v-for="(item, idx) of p_globalTags" :key="idx" @click.stop="f_tagAdd(item)">
               <Basic-tag :tag="item.tag" :color="item.color" />
-              <Basic-icon :icon="'close'" @click.stop="globalDelete(item.tag)" />
+              <Basic-icon :icon="'close'" @click.stop="f_globalDelete(item.tag)" />
             </div>
           </template>
         </Compound-tag_list>
         <div v-else>
           <Compound-tag_list :tag="_relatedTags">
             <template #default>
-              <div class="tag-list-inner" v-for="(item, idx) of _relatedTags" :key="idx" @click.stop="tagAdd(item)">
+              <div class="tag-list-inner" v-for="(item, idx) of _relatedTags" :key="idx" @click.stop="f_tagAdd(item)">
                 <Basic-tag :tag="item.tag" :color="item.color" />
               </div>
             </template>
           </Compound-tag_list>
-          <div class="new-tag" v-if="!_isExist && _newTag.tag.trim()" @click.stop="tagAdd(_newTag)">
+          <div class="new-tag" v-if="!_isExist && _newTag.tag.trim()" @click.stop="f_tagAdd(_newTag)">
             <Basic-tag :tag="_newTag.tag" :color="_newColor" />
             <div style="margin: auto 0 auto 10px;">생성</div>
           </div>
-          <div v-else>
+          <div v-if="!_newTag.tag.trim() && _newTag.tag">
             <div>올바르지 않은 태그 이름입니다.</div>
           </div>
         </div>
@@ -56,32 +56,31 @@ const $props = defineProps({
   },
   icon: {
     type: String,
-    required: true,
     default: null,
   }
 })
 
-const _relatedTags = ref([]) // 종속성 없음, props에 따라 달라짐
-const _newTag = ref(null) // 종속성 없음, 새로운 태그 생성
-const _newColor = ref(generateColor()) // 종속성 있음, 컴포저블을 컴포넌트 함수로 바꾸면 없음
-const _globalTags = ref([]) // 종속성 있음, 외부에서 주입된 전체 태그
-const _tags = ref([]) // 종속성 있음, 외부에서 주입된 내부 내그
-const _isExist = ref(null) // 종속성 없음, input에 따라 달라짐
+const _relatedTags = ref([])
+const _newTag = ref(null)
+const _newColor = ref(generateColor())
+const _globalTags = ref([])
+const _tags = ref([])
+const _isExist = ref(null)
 
 const { tags: p_tags, globalTags: p_globalTags, icon: p_icon } = toRefs($props)
 
-const emit = defineEmits([
+const $emit = defineEmits([
   'update:tags',
 ])
 
-const initInput = () => {
+const f_initInput = () => {
   _newColor.value = generateColor()
   _newTag.value = null
   _globalTags.value = null
   _isExist.value = false
 }
 
-const filter = (tag) => {
+const f_filter = (tag) => {
   _relatedTags.value = p_globalTags.value.filter(item => {
     if (item.tag.indexOf(tag.value) > -1) return item
   })
@@ -92,64 +91,66 @@ const filter = (tag) => {
     return acc
   }, false)
 
-
-  console.log(_isExist.value)
-  _newTag.value = { tag: tag.value, color: _newColor }
+  _newTag.value = { tag: tag.value, color: _newColor.value }
 }
 
-const tagAdd = (val) => {
-  console.log(val)
+const f_tagAdd = (val) => {
+  val.color = _newColor.value
 
   const isExist = p_tags.value.filter(item => val.tag === item.tag)
   if (isExist.length || !val.tag.trim()) return
 
   if (_newTag.value) {
-    saveData('global', [val, ...p_globalTags.value])
+    f_saveData('global', [val, ...p_globalTags.value])
   }
 
-  saveData('tags', [val, ...p_tags.value])
+  f_saveData('tags', [val, ...p_tags.value])
 
-  initInput()
+  f_initInput()
 
-  emit('update:tags')
+  $emit('update:tags')
 }
 
-const tagDelete = (tag) => {
-  deleteData('tags', p_tags, tag)
+const f_tagDelete = (tag) => {
+  f_deleteData('tags', p_tags, tag)
 }
 
-const globalDelete = (tag) => {
-  deleteData('global', p_globalTags, tag)
-  deleteData('tags', p_tags, tag)
+const f_globalDelete = (tag) => {
+  f_deleteData('global', p_globalTags, tag)
+  f_deleteData('tags', p_tags, tag)
 }
 
-const saveData = (table, data) => {
+const f_saveData = (table, data) => {
   localStorage.setItem(table, JSON.stringify(data))
 }
 
-const deleteData = (table, data, target) => {
+const f_deleteData = (table, data, target) => {
   const tmp_data = data.value.filter(item => item.tag !== target)
   localStorage.setItem(table, JSON.stringify(tmp_data))
 
-  emit('update:tags')
+  $emit('update:tags')
 }
 </script>
 
 <style lang="scss" scoped>
 .tag-input-verti {
   border-radius: 0.5rem;
+  overflow: hidden;
   height: 100%;
 
   & .top {
+    border-radius: 0.5rem 0.5rem 0 0;
     max-height: 150px;
     overflow-y: auto;
     background-color: #F8F9FA;
   }
 
   & .bottom {
+    border-radius: 0 0 0.5rem 0.5rem;
     height: 40%;
     max-height: 300px;
     overflow-y: auto;
+    background-color: white;
 
     & .new-tag {
       padding: 5px;
@@ -178,6 +179,10 @@ const deleteData = (table, data, target) => {
         margin-left: auto;
       }
     }
+  }
+
+  & .tag:hover {
+    cursor: pointer;
   }
 }
 </style>
