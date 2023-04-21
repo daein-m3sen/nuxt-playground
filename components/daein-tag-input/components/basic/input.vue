@@ -1,6 +1,7 @@
 <template>
   <div class="input">
-    <input type="text" :placeholder="p_placeholder" @input="onSearch" :value="_keyword" @keydown.enter.prevent="onEnter">
+    <input type="text" :placeholder="p_placeholder" @input.stop="onSearch" :value="_keyword"
+      @keydown.enter.stop="onEnter">
     <slot />
   </div>
 </template>
@@ -31,7 +32,7 @@ const onSearch = (evt) => {
 }
 
 const onEnter = (evt) => {
-  if (!_keyword?.value) return
+  if (!_keyword.value) return
 
   emit('update:keyword', {
     tag: _keyword.value,

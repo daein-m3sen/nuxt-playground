@@ -1,6 +1,6 @@
 <template>
   <div class="tag" :class="`color-${p_color ? p_color : bgColor}`">
-    <div class="tag">{{ p_tag ? p_tag : '새 태그' }}</div>
+    <div class="tag">{{ p_tag }}</div>
     <div v-if="p_icon" class="icon">
       <embed :src="`/assets/icons/${p_icon}.svg`">
     </div>
@@ -13,7 +13,7 @@ const $props = defineProps({
   tag: {
     type: String,
     required: true,
-    default: null,
+    default: '새 태그',
   },
   color: {
     type: String,
@@ -44,7 +44,6 @@ onMounted(() => {
   text-align: center;
   display: inline-flex;
   padding: 1px 6px;
-  line-height: 120%;
   margin: 3px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -52,7 +51,8 @@ onMounted(() => {
 
   & .icon {
     margin: 0 2px;
-    flex-shrink: 0;
+    display: flex;
+    align-items: center;
 
     & embed {
       height: 16px;

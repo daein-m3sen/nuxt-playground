@@ -17,14 +17,11 @@ const { icon: p_icon } = toRefs($props)
 
 <style lang="scss" scoped>
 .icon {
-  margin: auto 0;
+  margin: auto 0 auto auto;
+  display: flex;
+  align-items: center;
 
   & embed {
-    & svg {
-      display: flex;
-      align-items: center;
-    }
-
     height: 16px;
   }
 }

@@ -40,7 +40,7 @@
         <div>
           <h2>Basic Tag</h2>
           <Basic-tag
-            v-for="(item, idx) of Array(20).fill(0).map((v, i) => { return { tag: (i + 1), color: parseInt(Math.random() * 10) } })"
+            v-for="(item, idx) of Array(20).fill(0).map((v, i) => { return { tag: (i + 1).toString(), color: parseInt(Math.random() * 10).toString() } })"
             :key="idx" :tag="item.tag" />
         </div>
 
@@ -49,7 +49,7 @@
         <div>
           <h2>Basic Tag (added icon)</h2>
           <Basic-tag
-            v-for="(item, idx) of Array(20).fill(0).map((v, i) => { return { tag: (i + 1), color: parseInt(Math.random() * 10) } })"
+            v-for="(item, idx) of Array(20).fill(0).map((v, i) => { return { tag: (i + 1).toString(), color: parseInt(Math.random() * 10).toString() } })"
             :key="idx" :tag="item.tag" :icon="'close'" />
         </div>
 
@@ -70,17 +70,14 @@
       <div v-if="_isShows[2]" class="scaffold">
         <div>
           <h2>Compound tagInputVerti (width: 300px)</h2>
-          <Compound-tag_input_verti class="card" :globalTags="_globalTags"
-            :tags="Array(20).fill(0).map((v, i) => { return { tag: (i + 1), color: parseInt(Math.random() * 10) } })"
-            style="width: 300px;" />
+          <Compound-tag_input_verti class="card" :globalTags="_globalTags" :tags="_tags" style="width: 300px;" />
         </div>
 
         <br>
 
         <div>
           <h2>Compound tagInputHoriz</h2>
-          <Compound-tag_input_horiz class="card" :globalTags="_globalTags"
-            :tags="Array(20).fill(0).map((v, i) => { return { tag: (i + 1), color: parseInt(Math.random() * 10) } })" />
+          <Compound-tag_input_horiz class="card" :globalTags="_globalTags" :tags="_tags" />
         </div>
 
         <br><br>
@@ -97,11 +94,18 @@
 
       <div v-if="_isShows[3]" class="scaffold">
         <div>
-          <h2>Compound tagInputVerti (width: 300px)</h2>
-          <Compound-tag_input_verti #="{ submit }" class="card" style="width: 300px;" :globalTags="_globalTags"
-            :icon="'close'" />
+          <h2>Compound tagInputVerti (width: 70%)</h2>
+
+          <Compound-tag_input_verti #="{ submit }" class="card" style="width: 70%;" :globalTags="_globalTags"
+            :icon="'close'" :tags="_tags" @update:tags="loadData" />
         </div>
         <br><br>
+        <div>
+          <h2>Compound tagInputHoriz (width: 70%)</h2>
+
+          <Compound-tag_input_horiz #="{ submit }" class="card" style="width: 70%;" :globalTags="_globalTags"
+            :icon="'close'" :tags="_tags" @update:tags="loadData" />
+        </div>
       </div>
       <hr>
     </div>
@@ -112,25 +116,16 @@
 
 <script setup>
 const _isShows = ref([false, false, false, true])
-const _globalTags = ref(null)
+const _globalTags = ref([])
 const _tags = ref([])
 
+const loadData = () => {
+  _globalTags.value = JSON.parse(localStorage.getItem('global')) || []
+  _tags.value = JSON.parse(localStorage.getItem('tags')) || []
+}
+
 onMounted(() => {
-  localStorage.setItem('tags', JSON.stringify([
-    { tag: '기획', color: '2' },
-    { tag: '기안', color: '5' },
-    { tag: '개발', color: '1' },
-    { tag: '완료', color: '4' },
-    { tag: '삭제', color: '7' },
-  ]))
-
-  _globalTags.value = JSON.parse(localStorage.getItem('tags'))
-
-  watch(_globalTags, () => {
-    console.log('_globalTags 업데이트됨', _globalTags.value)
-    localStorage.setItem('tags', JSON.stringify(_globalTags.value))
-    _globalTags.value = JSON.parse(localStorage.get('tags'))
-  })
+  loadData()
 })
 </script>
 

@@ -6,7 +6,9 @@
     <div v-if="$slots.tags" class="tags">
       <slot name="tags" />
     </div>
-    <slot />
+    <div v-if="$slots.default" class="tags">
+      <slot />
+    </div>
   </div>
 </template>
 
