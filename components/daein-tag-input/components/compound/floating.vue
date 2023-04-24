@@ -2,15 +2,11 @@
   <div class="wrapper-floating">
     <slot name="default" />
     <div class="floating-item">
-      <slot name="floatItem" :="{ isShow: _isShow }" />
+      <slot name="floatItem" />
     </div>
   </div>
 </template>
 
-<script setup>
-const _isShow = ref(false)
-
-</script>
 
 <style lang="scss" scoped>
 .wrapper-floating {

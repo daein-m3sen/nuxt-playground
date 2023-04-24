@@ -2,7 +2,7 @@
   <div class="tag" :class="`color-${p_color ? p_color : bgColor}`">
     {{ p_tag }}
     <div v-if="p_icon" class="icon">
-      <embed :src="`/assets/icons/${p_icon}.svg`">
+      <img :src="`/assets/icons/${p_icon}.svg`">
     </div>
     <slot />
   </div>
@@ -49,7 +49,7 @@ onMounted(() => {
   display: inline-flex;
   padding: 6px;
   margin: 3px;
-  white-space: nowrap;
+  // white-space: nowrap;
   text-overflow: ellipsis;
   border-radius: 3px;
 
@@ -62,7 +62,7 @@ onMounted(() => {
     display: flex;
     align-items: center;
 
-    & embed {
+    & img {
       height: 16px;
     }
   }

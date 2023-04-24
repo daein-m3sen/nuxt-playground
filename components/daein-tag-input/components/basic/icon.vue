@@ -1,6 +1,6 @@
 <template>
   <div class="icon">
-    <embed :src="`/assets/icons/${p_icon}.svg`" />
+    <img :src="`/assets/icons/${p_icon}.svg`" />
   </div>
 </template>
 
@@ -21,7 +21,7 @@ const { icon: p_icon } = toRefs($props)
   display: flex;
   align-items: center;
 
-  & embed {
+  & img {
     height: 16px;
   }
 }

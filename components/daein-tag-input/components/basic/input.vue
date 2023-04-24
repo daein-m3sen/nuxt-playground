@@ -1,8 +1,9 @@
 <template>
   <div class="input">
-    <input ref="input" type="text" :placeholder="p_placeholder" @input.stop="f_onSearch" :value="_keyword"
-      @keypress.enter.stop="f_onEnter">
-    <slot />
+    <slot :="{ keyword: _keyword }">
+      <input ref="input" type="text" :placeholder="p_placeholder" @input.stop="f_onSearch" :value="_keyword"
+        @keypress.enter.stop="f_onEnter">
+    </slot>
   </div>
 </template>
 
@@ -20,7 +21,7 @@ const $props = defineProps({
 
 const emit = defineEmits([
   'update:keyword',
-  'select:related',
+  'submit:keyword',
 ])
 
 const { keyword: p_keyword, placeholder: p_placeholder } = toRefs($props)
@@ -29,21 +30,21 @@ const input = ref(null)
 
 const f_onSearch = (evt) => {
   _keyword.value = evt.target.value
-  emit('select:related', _keyword)
+
+  emit('update:keyword', _keyword)
 }
 
 const f_onEnter = (evt) => {
   if (!_keyword.value) return
 
-  emit('update:keyword', {
+  emit('submit:keyword', {
     tag: _keyword.value,
-    color: generateColor(),
   })
 
   _keyword.value = null
 }
 
-watch(p_keyword, (newVal) => _keyword = newVal.value)
+watch(p_keyword, (newVal) => _keyword.value = newVal.value)
 </script>
 
 <style lang="scss" scoped>

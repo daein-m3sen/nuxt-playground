@@ -8,18 +8,18 @@
       <div v-if="_isShows[0]" class="scaffold">
         <div>
           <h2>Wrapper tags (width: 200px)</h2>
-          <Wrapper-tags class="card" style="width: 200px;">
+          <Basic-tags class="card" style="width: 200px;">
             <template #tags>
               <Basic-tag v-for="(item, idx) of _globalTags" :key="idx" :tag="item.tag" :color="item.color" />
             </template>
-          </Wrapper-tags>
+          </Basic-tags>
         </div>
 
         <br>
 
         <div>
           <h2>Wrapper tags with input (width: 200px)</h2>
-          <Wrapper-tags class="card" style="display: block;width: 200px;">
+          <Basic-tags class="card" style="display: block;width: 200px;">
             <template #input>
               <Basic-input :placeholder="'태그 선택 또는 만들기'" style="padding: 10px;" />
             </template>
@@ -27,7 +27,7 @@
               <Basic-tag v-for="(item, idx) of _globalTags" :key="idx" :tag="item.tag" :color="item.color"
                 :icon="'close'" />
             </template>
-          </Wrapper-tags>
+          </Basic-tags>
         </div>
 
         <br><br>
@@ -98,7 +98,7 @@
           <h2>Tag input vertical example (width: 70%)</h2>
 
           <Compound-tag_input_verti class="card" style="width: 70%;" :globalTags="_globalTags" :icon="'close'"
-            :tags="_tags" @update:tags="f_loadData" />
+            :tags="_tags" @update:tags="(tags) => f_saveData(tags)" @delete:tag="(tag) => f_deleteData(tag)" />
         </div>
 
         <br><br>
@@ -107,7 +107,7 @@
           <h2>Tag input horizontal example (width: 70%)</h2>
 
           <Compound-tag_input_horiz class="card" style="width: 70%;" :globalTags="_globalTags" :icon="'close'"
-            :tags="_tags" @update:tags="f_loadData" />
+            :tags="_tags" @update:tags="(tags) => f_saveData(tags)" @delete:tag="(tag) => f_deleteData(tag)" />
         </div>
 
         <br><br>
@@ -117,21 +117,21 @@
 
           <div class="grid-layout">
             <div class="item" v-for="(item, idx) of [1, 2, 3, 4, 5, 6, 7, 8, 9]" :key="idx">
-              <Wrapper-floating @click.stop="f_onClickGrid(idx)"
-                :style="`${_currItem === idx ? 'pointer-events: none' : 'pointer-events: auto'}`">
+              <Compound-floating>
                 <template #default>
-                  <Wrapper-tags class="card" style="display: block;width: 100%;height: 100%;">
+                  <Basic-tags class="card" style="display: block;width: 100%;height: 100%;"
+                    @click.self="f_onClickGrid(idx)">
                     <template #tags>
                       <Basic-tag v-for="(item, idx) of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" :key="idx" :tag="item.toString()"
                         :color="item.toString()" />
                     </template>
-                  </Wrapper-tags>
+                  </Basic-tags>
                 </template>
                 <template #floatItem="{ isShow }" v-if="_isFloat && _currItem === idx">
                   <Compound-tag_input_verti #="{ submit }" class="card" :globalTags="_globalTags" :icon="'close'"
                     :tags="_tags" @update:tags="f_loadData" />
                 </template>
-              </Wrapper-floating>
+              </Compound-floating>
             </div>
           </div>
         </div>
@@ -155,22 +155,26 @@ const f_loadData = () => {
   _tags.value = JSON.parse(localStorage.getItem('tags')) || []
 }
 
+const f_saveData = ({ table, tags }) => {
+  localStorage.setItem(table, JSON.stringify(tags))
+
+  f_loadData()
+}
+
+const f_deleteData = ({ table, tag }) => {
+  let tmp_data
+
+  if (table === 'global') tmp_data = _globalTags.value.filter(item => item.tag !== tag)
+  else tmp_data = _tags.value.filter(item => item.tag !== tag)
+
+  localStorage.setItem(table, JSON.stringify(tmp_data))
+
+  f_loadData()
+}
+
 const f_onClickGrid = (idx) => {
   _isFloat.value = !_isFloat.value
   _currItem.value = idx
-}
-
-const f_tagExamGen = (n = 10) => {
-  const tags = []
-
-  for (let i = 0; i < n; i++) {
-    tags.push({
-      tag: (Math.ceil(Math.random() * 99)).toString(),
-      color: (Math.ceil(Math.random() * 10)).toString(),
-    })
-  }
-
-  return tags
 }
 
 onMounted(() => {
@@ -207,6 +211,7 @@ h1 {
   height: 500px;
   grid-column: 3;
   grid-template-columns: repeat(3, 1fr);
+  z-index: 2;
 
   & .item {
     // overflow: auto;
