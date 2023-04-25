@@ -1,9 +1,11 @@
 <template>
-  <div class="first">
-    <slot name="first" />
-  </div>
-  <div class="second">
-    <slot name="second" />
+  <div>
+    <div class="first">
+      <slot name="first" />
+    </div>
+    <div class="second">
+      <slot name="second" />
+    </div>
   </div>
 </template>
 

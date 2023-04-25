@@ -49,7 +49,7 @@ onMounted(() => {
   display: inline-flex;
   padding: 6px;
   margin: 3px;
-  // white-space: nowrap;
+  white-space: nowrap;
   text-overflow: ellipsis;
   border-radius: 3px;
 

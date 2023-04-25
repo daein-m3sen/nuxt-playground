@@ -1,8 +1,8 @@
 <template>
   <div class="tag-input">
-    <Wrapper-horiz>
+    <component :is="components[p_direction]">
       <template #first>
-        <Basic-tags class="first">
+        <Wrapper-tags class="first">
           <template #tags v-if="p_tags.length">
             <Basic-tag v-for="(item, idx) of p_tags" :key="idx" :tag="item.tag" :color="item.color" :icon="p_icon"
               @click.stop="f_tagDelete(item.tag)" />
@@ -10,10 +10,10 @@
           <template #tags v-else>
             <div class="empty">등록된 태그가 없습니다.</div>
           </template>
-        </Basic-tags>
+        </Wrapper-tags>
       </template>
       <template #second>
-        <Basic-tags class="second">
+        <Wrapper-tags class="second">
           <template #input>
             <Basic-input :placeholder="'태그 선택 또는 만들기'" :keyword="_keyword"
               @update:keyword="(keyword) => f_filter(keyword)" @submit:keyword="(keyword) => f_tagAdd(keyword)" />
@@ -44,13 +44,16 @@
               </div>
             </div>
           </template>
-        </Basic-tags>
+        </Wrapper-tags>
       </template>
-    </Wrapper-horiz>
+    </component>
   </div>
 </template>
 
 <script setup>
+import verti from '~~/components/wrapper/verti.vue'
+import horiz from '~~/components/wrapper/horiz.vue'
+
 const $props = defineProps({
   tags: {
     type: Array,
@@ -63,6 +66,10 @@ const $props = defineProps({
   icon: {
     type: String,
     default: null,
+  },
+  direction: {
+    type: String,
+    default: 'verti',
   }
 })
 
@@ -72,7 +79,12 @@ const _newColor = ref(generateColor())
 const _isExist = ref(null)
 const _keyword = ref(null)
 
-const { tags: p_tags, globalTags: p_globalTags, icon: p_icon } = toRefs($props)
+const { tags: p_tags, globalTags: p_globalTags, icon: p_icon, direction: p_direction } = toRefs($props)
+
+const components = {
+  verti,
+  horiz,
+}
 
 const $emit = defineEmits([
   'update:tags',

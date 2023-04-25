@@ -28,7 +28,7 @@
     width: 40%;
     min-width: 200px;
     max-height: 300px;
-    overflow-y: auto;
+    overflow: auto;
 
     &::-webkit-scrollbar-thumb {
       border-radius: 0 0.5rem 0.5rem 0;

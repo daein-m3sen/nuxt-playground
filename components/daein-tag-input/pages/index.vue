@@ -8,18 +8,18 @@
       <div v-if="_isShows[0]" class="scaffold">
         <div>
           <h2>Wrapper tags (width: 200px)</h2>
-          <Basic-tags class="card" style="width: 200px;">
+          <Wrapper-tags class="card" style="width: 200px;">
             <template #tags>
               <Basic-tag v-for="(item, idx) of _globalTags" :key="idx" :tag="item.tag" :color="item.color" />
             </template>
-          </Basic-tags>
+          </Wrapper-tags>
         </div>
 
         <br>
 
         <div>
           <h2>Wrapper tags with input (width: 200px)</h2>
-          <Basic-tags class="card" style="display: block;width: 200px;">
+          <Wrapper-tags class="card" style="display: block;width: 200px;">
             <template #input>
               <Basic-input :placeholder="'태그 선택 또는 만들기'" style="padding: 10px;" />
             </template>
@@ -27,7 +27,7 @@
               <Basic-tag v-for="(item, idx) of _globalTags" :key="idx" :tag="item.tag" :color="item.color"
                 :icon="'close'" />
             </template>
-          </Basic-tags>
+          </Wrapper-tags>
         </div>
 
         <br><br>
@@ -71,14 +71,15 @@
       <div v-if="_isShows[2]" class="scaffold">
         <div>
           <h2>Compound tagInputVerti (width: 300px)</h2>
-          <Compound-tag_input_verti class="card" :globalTags="_globalTags" :tags="_tags" style="width: 300px;" />
+          <Compound-tag_input class="card" :direction="'verti'" :globalTags="_globalTags" :tags="_tags"
+            style="width: 300px;" />
         </div>
 
         <br>
 
         <div>
           <h2>Compound tagInputHoriz</h2>
-          <Compound-tag_input_horiz class="card" :globalTags="_globalTags" :tags="_tags" />
+          <Compound-tag_input class="card" :direction="'horiz'" :globalTags="_globalTags" :tags="_tags" />
         </div>
 
         <br><br>
@@ -97,8 +98,11 @@
         <div>
           <h2>Tag input vertical example (width: 70%)</h2>
 
-          <Compound-tag_input_verti class="card" style="width: 70%;" :globalTags="_globalTags" :icon="'close'"
-            :tags="_tags" @update:tags="(tags) => f_saveData(tags)" @delete:tag="(tag) => f_deleteData(tag)" />
+          <!-- <Wrapper-verti> -->
+          <Compound-tag_input class="card" style="width: 70%;" :direction="'verti'" :globalTags="_globalTags"
+            :icon="'close'" :tags="_tags" @update:tags="(tags) => f_saveData(tags)"
+            @delete:tag="(tag) => f_deleteData(tag)" />
+          <!-- </Wrapper-verti> -->
         </div>
 
         <br><br>
@@ -106,8 +110,9 @@
         <div>
           <h2>Tag input horizontal example (width: 70%)</h2>
 
-          <Compound-tag_input_horiz class="card" style="width: 70%;" :globalTags="_globalTags" :icon="'close'"
-            :tags="_tags" @update:tags="(tags) => f_saveData(tags)" @delete:tag="(tag) => f_deleteData(tag)" />
+          <Compound-tag_input class="card" style="width: 70%;" :direction="'horiz'" :globalTags="_globalTags"
+            :icon="'close'" :tags="_tags" @update:tags="(tags) => f_saveData(tags)"
+            @delete:tag="(tag) => f_deleteData(tag)" />
         </div>
 
         <br><br>
@@ -119,15 +124,15 @@
             <div class="item" v-for="(item, idx) of [1, 2, 3, 4, 5, 6, 7, 8, 9]" :key="idx">
               <Compound-floating>
                 <template #default>
-                  <Basic-tags class="card" style="display: block;width: 100%;height: 100%;"
+                  <Wrapper-tags class="card" style="display: block;width: 100%;height: 100%;"
                     @click.self="f_onClickGrid(idx)">
                     <template #tags>
                       <Basic-tag v-for="(item, idx) of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" :key="idx" :tag="item.toString()"
                         :color="item.toString()" />
                     </template>
-                  </Basic-tags>
+                  </Wrapper-tags>
                 </template>
-                <template #floatItem="{ isShow }" v-if="_isFloat && _currItem === idx">
+                <template #floatItem v-if="_isFloat && _currItem === idx">
                   <Compound-tag_input_verti #="{ submit }" class="card" :globalTags="_globalTags" :icon="'close'"
                     :tags="_tags" @update:tags="f_loadData" />
                 </template>
