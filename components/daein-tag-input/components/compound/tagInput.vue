@@ -155,6 +155,7 @@ const f_globalDelete = (tag) => {
 <style lang="scss" scoped>
 .tag-input {
   border-radius: 0.5rem;
+  border: 0.5px solid lightgrey;
   overflow: hidden;
   height: 100%;
 

@@ -31,6 +31,32 @@
         </div>
 
         <br><br>
+
+        <div>
+          <h2>Wrapper Floating (height, width: 500px)</h2>
+
+          <div class="grid-layout">
+            <div class="item" v-for="( item, idx ) of  [1, 2, 3, 4, 5, 6, 7, 8, 9] " :key="idx">
+              <Wrapper-floating>
+                <template #default>
+                  <Wrapper-tags class="card" style="display: block;width: 100%;height: 100%;"
+                    @click.self="f_onClickGrid(idx)">
+                    <template #tags>
+                      <Basic-tag v-for="( item, idx ) of  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] " :key="idx"
+                        :tag="item.toString()" :color="item.toString()" />
+                    </template>
+                  </Wrapper-tags>
+                </template>
+                <template #floatItem v-if="_isFloat && _currItem === idx">
+                  <Compound-tag_input class="card" :direction="'horiz'" :globalTags="_globalTags" :icon="'close'"
+                    :tags="_tags" @update:tags="f_loadData" />
+                </template>
+              </Wrapper-floating>
+            </div>
+          </div>
+        </div>
+
+        <br><br>
       </div>
 
       <hr>
@@ -96,50 +122,17 @@
 
       <div v-if="_isShows[3]" class="scaffold">
         <div>
-          <h2>Tag input vertical example (width: 70%)</h2>
-
+          <h2>Tag input example (width: 70%)</h2>
+          <Basic-button :name="'방향 전환 버튼'" @click="onChangeDirection" />
+          <br><br>
           <!-- <Wrapper-verti> -->
-          <Compound-tag_input class="card" style="width: 70%;" :direction="'verti'" :globalTags="_globalTags"
+          <Compound-tag_input class="card" style="width: 70%;" :direction="_direction" :globalTags="_globalTags"
             :icon="'close'" :tags="_tags" @update:tags="(tags) => f_saveData(tags)"
             @delete:tag="(tag) => f_deleteData(tag)" />
           <!-- </Wrapper-verti> -->
         </div>
 
         <br><br>
-
-        <div>
-          <h2>Tag input horizontal example (width: 70%)</h2>
-
-          <Compound-tag_input class="card" style="width: 70%;" :direction="'horiz'" :globalTags="_globalTags"
-            :icon="'close'" :tags="_tags" @update:tags="(tags) => f_saveData(tags)"
-            @delete:tag="(tag) => f_deleteData(tag)" />
-        </div>
-
-        <br><br>
-
-        <div>
-          <h2>Floating layout example (height, width: 500px)</h2>
-
-          <div class="grid-layout">
-            <div class="item" v-for="(item, idx) of [1, 2, 3, 4, 5, 6, 7, 8, 9]" :key="idx">
-              <Compound-floating>
-                <template #default>
-                  <Wrapper-tags class="card" style="display: block;width: 100%;height: 100%;"
-                    @click.self="f_onClickGrid(idx)">
-                    <template #tags>
-                      <Basic-tag v-for="(item, idx) of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" :key="idx" :tag="item.toString()"
-                        :color="item.toString()" />
-                    </template>
-                  </Wrapper-tags>
-                </template>
-                <template #floatItem v-if="_isFloat && _currItem === idx">
-                  <Compound-tag_input_verti #="{ submit }" class="card" :globalTags="_globalTags" :icon="'close'"
-                    :tags="_tags" @update:tags="f_loadData" />
-                </template>
-              </Compound-floating>
-            </div>
-          </div>
-        </div>
       </div>
       <hr>
     </div>
@@ -154,6 +147,7 @@ const _isFloat = ref(false)
 const _currItem = ref(null)
 const _globalTags = ref([])
 const _tags = ref([])
+const _direction = ref('verti')
 
 const f_loadData = () => {
   _globalTags.value = JSON.parse(localStorage.getItem('global')) || []
@@ -180,6 +174,10 @@ const f_deleteData = ({ table, tag }) => {
 const f_onClickGrid = (idx) => {
   _isFloat.value = !_isFloat.value
   _currItem.value = idx
+}
+
+const onChangeDirection = () => {
+  _direction.value === 'verti' ? _direction.value = 'horiz' : _direction.value = 'verti'
 }
 
 onMounted(() => {

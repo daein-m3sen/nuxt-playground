@@ -13,7 +13,6 @@
   width: 100%;
   height: 100%;
   position: relative;
-  pointer-events: visible;
 
   & .floating-item {
     z-index: 3;
