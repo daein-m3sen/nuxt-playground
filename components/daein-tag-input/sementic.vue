@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <Wrapper-Horiz>
+    <Compound-Horiz>
       <template>
         <CompoundTags ss>
           <template #list></template>
@@ -12,6 +12,6 @@
           <template #input></template>
         </CompoundTags>
       </template>
-    </Wrapper-Horiz>
+    </Compound-Horiz>
   </div>
 </template>

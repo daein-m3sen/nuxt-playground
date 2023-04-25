@@ -2,41 +2,41 @@
   <div class="tag-input">
     <component :is="components[p_direction]">
       <template #first>
-        <Wrapper-tags class="first">
+        <Compound-tags class="first">
           <template #tags v-if="p_tags.length">
-            <Basic-tag v-for="(item, idx) of p_tags" :key="idx" :tag="item.tag" :color="item.color" :icon="p_icon"
+            <BasicAtom-tag v-for="(item, idx) of p_tags" :key="idx" :tag="item.tag" :color="item.color" :icon="p_icon"
               @click.stop="f_tagDelete(item.tag)" />
           </template>
           <template #tags v-else>
             <div class="empty">등록된 태그가 없습니다.</div>
           </template>
-        </Wrapper-tags>
+        </Compound-tags>
       </template>
       <template #second>
-        <Wrapper-tags class="second">
+        <Compound-tags class="second">
           <template #input>
-            <Basic-input :placeholder="'태그 선택 또는 만들기'" :keyword="_keyword"
+            <BasicAtom-input :placeholder="'태그 선택 또는 만들기'" :keyword="_keyword"
               @update:keyword="(keyword) => f_filter(keyword)" @submit:keyword="(keyword) => f_tagAdd(keyword)" />
           </template>
           <template #tags>
-            <Wrapper-list :tag="p_globalTags" v-if="!_newTag">
+            <CompoundLayout-list :tag="p_globalTags" v-if="!_newTag">
               <template #default>
                 <div class="tag-list-inner" v-for="(item, idx) of p_globalTags" :key="idx" @click.stop="f_tagAdd(item)">
-                  <Basic-tag :tag="item.tag" :color="item.color" />
-                  <Basic-icon :icon="'close'" @click.stop="f_globalDelete(item.tag)" />
+                  <BasicAtom-tag :tag="item.tag" :color="item.color" />
+                  <BasicAtom-icon :icon="'close'" @click.stop="f_globalDelete(item.tag)" />
                 </div>
               </template>
-            </Wrapper-list>
+            </CompoundLayout-list>
             <div v-else>
-              <Wrapper-list :tag="_relatedTags">
+              <CompoundLayout-list :tag="_relatedTags">
                 <template #default>
                   <div class="tag-list-inner" v-for="(item, idx) of _relatedTags" :key="idx" @click.stop="f_tagAdd(item)">
-                    <Basic-tag :tag="item.tag" :color="item.color" />
+                    <BasicAtom-tag :tag="item.tag" :color="item.color" />
                   </div>
                 </template>
-              </Wrapper-list>
+              </CompoundLayout-list>
               <div class="new-tag" v-if="!_isExist && _newTag.tag.trim()" @click="f_tagAdd(_newTag)">
-                <Basic-tag :tag="_newTag.tag" :color="_newTag.color" />
+                <BasicAtom-tag :tag="_newTag.tag" :color="_newTag.color" />
                 <div style="margin: auto 0 auto 10px;">생성</div>
               </div>
               <div v-if="!_newTag.tag.trim() && _newTag.tag">
@@ -44,15 +44,15 @@
               </div>
             </div>
           </template>
-        </Wrapper-tags>
+        </Compound-tags>
       </template>
     </component>
   </div>
 </template>
 
 <script setup>
-import verti from '~~/components/wrapper/verti.vue'
-import horiz from '~~/components/wrapper/horiz.vue'
+import verti from '~~/components/compound/verti.vue'
+import horiz from '~~/components/compound/horiz.vue'
 
 const $props = defineProps({
   tags: {
