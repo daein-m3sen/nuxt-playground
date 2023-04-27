@@ -14,6 +14,8 @@
 
 <style lang="scss">
 .wrapper-tags {
+  height: 100%;
+
   & .input {
     padding: 10px;
   }
