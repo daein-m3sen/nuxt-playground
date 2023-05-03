@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@types/node": "^18",
-    "nuxt": "^3.4.2"
+    "nuxt": "^3.4.3"
   },
   "dependencies": {
     "@nuxtjs/proxy": "^2.1.0",

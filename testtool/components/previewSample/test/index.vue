@@ -1,5 +1,5 @@
 <template>
   <div>
-    Hi! i'm test/index.vue
+    previewSample-test-index
   </div>
 </template>
