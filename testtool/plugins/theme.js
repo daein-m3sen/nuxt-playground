@@ -1,4 +1,4 @@
-export default (nuxt) => {
+export default defineNuxtPlugin((nuxt) => {
   nuxt.vueApp.mixin({
     data() {
       return {
@@ -6,12 +6,15 @@ export default (nuxt) => {
       }
     },
     computed: {
-      c__themes() {
-        return defineTheme(this.theme).current
+      c__theme() {
+        return this.__theme
       },
-      // c__everyThemes() {
-      //   return defineTheme()
-      // }
+      c__color() {
+        return defineTheme(this.__theme).current
+      },
+      c__themes() {
+        return defineThemes()
+      }
     }
   })
-}
+})

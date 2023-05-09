@@ -3,6 +3,8 @@ import fs from 'fs'
 import path from 'path'
 import http from 'http'
 import socket from 'socket.io'
+import deepmerge from 'deepmerge'
+import merge from 'lodash/merge'
 import * as dotenv from 'dotenv'
 
 dotenv.config()
@@ -26,11 +28,10 @@ export default defineNuxtModule({
       }
     })
 
-    const baseUrl = __dirname
     const components = []
-    const components2 = []
+    let components2 = []
     const extendComponent = []
-    const imports = []
+    const importsArr = []
     const fileChanges = []
 
     function fileAnalyzer(path) {
@@ -62,6 +63,8 @@ export default defineNuxtModule({
         return acc
       }, [])
 
+      console.log(relativeCode)
+
       const result = {
         templateCode,
         scriptCode,
@@ -92,7 +95,7 @@ export default defineNuxtModule({
           if (stat.isDirectory()) {
             files[rootName]['child'].push(extractPathToObject(filePath, path.join(rootPath, fileName)))
           } else {
-            files[rootName]['item'].push({ name, path: path.join(rootPath, fileName) })
+            files[rootName]['item'].push({ name, projectPath: path.join(rootPath, fileName) })
 
             fs.watchFile(filePath, (curr, prev) => {
               const updateFile = { name, path: filePath, curr, prev }
@@ -111,33 +114,74 @@ export default defineNuxtModule({
       return files
     }
 
-    function createFileTree(files) {
-      const newObj = {}
+    function createPathObject(path) {
+      const pathArr = path.split('/').reverse();
+      const fileName = pathArr.shift();
 
-      files.map((file, idx) => {
-        const baseObj = {}
-
-        baseObj = {
-          item: [],
-          child: [],
+      const result = pathArr.reduce((acc, dir, idx) => {
+        if (idx === 0) return {
+          [dir]: {
+            item: [acc]
+          },
         }
 
-        file.shortPath.split('/').map((chunk, idx) => {
-          
+        else return {
+          [dir]: {
+            child: [acc],
+          },
+        }
+      }, { name: fileName })
+
+      return result
+    }
+    
+    function createPathObject2(shortPath, projectPath, filePath, baseObj, root=true) {
+      const pathArr = shortPath.split('/')
+      const currName = pathArr.shift()
+
+      const isFileReg = '^\s*[\p{L}\p{N}\p{Pd}\p{Zs}]+\s*(?:[\p{L}\p{N}\p{Pd}\p{Zs}]+\s*)*(?:\.[\p{L}\p{N}\p{Pd}\p{Zs}]+)?\s*$'
+
+      if (currName.includes('.vue')) {
+        baseObj.item.push({
+          name: currName,
+          projectPath,
+          filePath
         })
-      })
+      } else {
+        if (root) {
+          if (!Object.keys(baseObj).length) baseObj[currName] = { item: [], child: [] }
+          
+          createPathObject2(pathArr.join('/'), projectPath, filePath, baseObj[currName], false)
+        } else {
+          console.log(root, baseObj, 'else baseObj')
+          if (root) {
+            if (baseObj[currName].child.filter(item => Object.keys(item)[0] === currName).length) return 
+          } else {
+            if (!baseObj.child.filter(item => Object.keys(item)[0] === currName).length) {
+              baseObj.child.push({
+                [currName]: { item: [], child: [] }
+              })
+            }
+          }
+
+          createPathObject2(pathArr.join('/'), projectPath, filePath, baseObj.child.filter(item => Object.keys(item)[0] === currName)[0][currName], false)
+        }
+      }
+
+      return baseObj
     }
 
-    nuxt.hook('imports:dirs', (dirs) => {
-      dirs.map(item => item.path).forEach(item => {
-        const result = extractPathToObject(item)
-
-        imports.push(result)
-      })
-    })
 
     nuxt.hook('imports:extend', (imports) => {
-      // console.log(imports, 'extend')
+      imports.forEach((item, idx) => {
+        const importDirectory = item.from.replace(`${process.env.PWD}/`, '').split('/')[0]
+
+        importsArr.push({
+          ...item,
+          shortPath: item.from.replace(`${process.env.PWD}/`, ''),
+          directory: importDirectory !== 'utils' ? 'composables' : importDirectory,
+        })
+      })
     })
 
     nuxt.hook('pages:extend', (pages) => {
@@ -153,37 +197,64 @@ export default defineNuxtModule({
       })
 
       pages.push({ 
-        name: 'test-preview',
-        path: '/test_m3sen/preview/:path(.*)*',
-        file: path.join(__dirname, 'pages/preview.vue'),
+        name: 'test-color-ystem',
+        path: '/test_m3sen/colorSystem',
+        file: path.join(__dirname, 'pages/colorSystem.vue'),
         children: [],
       })
     })
 
     nuxt.hook('components:dirs', (dirs) => {
       dirs.map(item => item.path).forEach(item => {
+        fs.watch(item, (type, filename) => {
+          console.log(filename, type, 'dirs')
+  
+          io.emit('update:file', { filename, type })
+        })
+
         const result = extractPathToObject(item)
         components.push(result)
       })
     })
 
     nuxt.hook('components:extend', (components) => {
-      components2.push(...components)
-      createFileTree(components2)
+      fs.watch(path.join(process.env.PWD, 'components'), (type, filename) => {
+        console.log(filename, type, 'extend')
 
+        io.emit('update:file', { filename, type })
+      })
+
+      const mergeObjArr = []
+      
+      let baseObj = {}
       extendComponent.push(...components.map((component, idx) => {
-        console.log(component.filePath)
+        console.log('\n\n', component.shortPath)
+        const result = createPathObject2(component.shortPath, component.shortPath.split('.')[0], component.filePath, baseObj)
+        baseObj = result
+
         return component.pascalName.toLowerCase()
       }))
+
+      components2 = baseObj
+
+      console.log(JSON.stringify(baseObj), 'complete Obj')
+
+      // console.log(JSON.stringify(mergeObjArr[0]), '\n\n')
+      // console.log(JSON.stringify(mergeObjArr[1]), '\n\n')
+
+      // console.log(JSON.stringify(deepmerge.all(mergeObjArr)))
     })
 
     io.on('connection', (socket) => {
-      io.emit('imports:dirs', imports)
+      io.emit('imports:extend', importsArr)
       io.emit('components:dirs', {
         basePath: process.env.PWD,
         components
       })
-      io.emit('components:extend', components2)
+      io.emit('components:extend', {
+        basePath: process.env.PWD,
+        components: components2
+      })
       io.emit('builder:watch', fileChanges)
 
       socket.on('load:file', (path) => {
